@@ -5,7 +5,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { STACK_NAME } from 'consts/configs';
 import Home from './Home';
 import Login from './Login';
-import Signin from './Signin';
+import Signup from './Signup';
 import Contexts from 'utils/Contexts';
 
 const Stack = createStackNavigator();
@@ -21,7 +21,7 @@ export default () => {
           </Stack.Navigator> :
           <Stack.Navigator headerMode="none">
             <Stack.Screen name={STACK_NAME.LOGIN} component={Login} />
-            <Stack.Screen name={STACK_NAME.SIGNIN} component={Signin} />
+            <Stack.Screen name={STACK_NAME.SIGNUP} component={Signup} />
           </Stack.Navigator>
       }
     </NavigationContainer>
