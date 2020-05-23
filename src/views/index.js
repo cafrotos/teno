@@ -1,7 +1,8 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs'
+import * as eva from '@eva-design/eva';
 
 import { STACK_NAME, TAB_SCREEN } from 'consts/configs';
 import Contexts from 'utils/Contexts';
@@ -18,27 +19,38 @@ import Setting from './Setting';
 const Stack = createStackNavigator();
 const Tabs = createMaterialTopTabNavigator();
 
-const TabsApp = (props) => (
-  <Tabs.Navigator {...props} tabBar={TopTabBar}>
-    <Tabs.Screen name={TAB_SCREEN.HOME} component={Home} />
-    <Tabs.Screen name={TAB_SCREEN.STORIES} component={Stories} />
-    <Tabs.Screen name={TAB_SCREEN.CALENDAR} component={Calendar} />
-    <Tabs.Screen name={TAB_SCREEN.IMAGES} component={Images} />
-    <Tabs.Screen name={TAB_SCREEN.SETTING} component={Setting} />
-  </Tabs.Navigator>
-)
+const TabsApp = (props) => {
+  const context = useContext(Contexts);
+  useEffect(() => {
+    context.setGlobalState({
+      theme: eva.light
+    })
+  }, [])
+  return (
+    <Tabs.Navigator {...props} tabBar={TopTabBar} style={{ backgroundColor: "#ffffff" }}>
+      <Tabs.Screen name={TAB_SCREEN.HOME} component={Home} />
+      <Tabs.Screen name={TAB_SCREEN.STORIES} component={Stories} />
+      <Tabs.Screen name={TAB_SCREEN.CALENDAR} component={Calendar} />
+      <Tabs.Screen name={TAB_SCREEN.IMAGES} component={Images} />
+      <Tabs.Screen name={TAB_SCREEN.SETTING} component={Setting} />
+    </Tabs.Navigator>
+  )
+}
+
+const renderTabsApp = (props) => <TabsApp {...props} />
 
 export default () => {
   const context = useContext(Contexts)
+
   return (
     <NavigationContainer>
       <Stack.Navigator headerMode="none">
         {
           context.globalState.isLogin ?
-            <Stack.Screen name={STACK_NAME.TABS} component={TabsApp} /> :
+            <Stack.Screen name={STACK_NAME.TABS} component={renderTabsApp} /> :
             <>
-              <Stack.Screen name={STACK_NAME.LOGIN} component={Login} />
               <Stack.Screen name={STACK_NAME.SIGNUP} component={Signup} />
+              <Stack.Screen name={STACK_NAME.LOGIN} component={Login} />
             </>
         }
       </Stack.Navigator>

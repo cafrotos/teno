@@ -5,10 +5,11 @@ import { getIcon } from 'utils';
 const CustomLayout = ({
   onButtonPress,
   showButton,
+  style,
   children,
 }) => {
   return (
-    <Layout style={{ flex: 1 }}>
+    <Layout style={{ flex: 1, ...style }}>
       {children}
       {
         showButton && <Button

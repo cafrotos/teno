@@ -95,10 +95,11 @@ const TopTabBar = ({ navigation, state, onSearch }) => {
       </View>
       <TabBar
         selectedIndex={state.index}
+        
         onSelect={_selectTab}
         style={{
           borderWidth: 0,
-          height: 50
+          height: 50,
         }}
       >
         <Tab icon={getIcon({ name: "home-outline" })} />

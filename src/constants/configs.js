@@ -17,3 +17,7 @@ export const TAB_SCREEN = {
   IMAGES: "Images",
   SETTING: "Setting",
 }
+
+export const REG_EMAIL = /^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/g
+
+export const REG_PASSWORD = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/g
