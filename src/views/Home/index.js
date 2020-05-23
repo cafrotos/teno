@@ -1,13 +1,12 @@
 import React from 'react';
-import { View } from 'react-native';
-import { Button } from '@ui-kitten/components';
+import { createStackNavigator } from '@react-navigation/stack'
 
-export default (props) => {
-  return (
-    <View>
-      <Button>
-        Hello
-      </Button>
-    </View>
-  )
-}
+import ListNotes from './ListNotes';
+
+const { Navigator, Screen } = createStackNavigator();
+
+export default (props) => (
+  <Navigator headerMode="none">
+    <Screen name={"List Notes"} component={ListNotes} />
+  </Navigator>
+)

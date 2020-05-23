@@ -10,7 +10,7 @@ import Contexts from './src/utils/Contexts';
 import { defReduceState } from './src/utils';
 
 const initialState = {
-  isLogin: false
+  isLogin: true
 }
 
 export default () => {
