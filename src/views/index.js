@@ -49,8 +49,8 @@ export default () => {
           context.globalState.isLogin ?
             <Stack.Screen name={STACK_NAME.TABS} component={renderTabsApp} /> :
             <>
-              <Stack.Screen name={STACK_NAME.SIGNUP} component={Signup} />
               <Stack.Screen name={STACK_NAME.LOGIN} component={Login} />
+              <Stack.Screen name={STACK_NAME.SIGNUP} component={Signup} />
             </>
         }
       </Stack.Navigator>
