@@ -10,6 +10,10 @@ import TopTabBar from 'components/TopTabBar';
 import Home from './Home';
 import Login from './Login';
 import Signup from './Signup';
+import Stories from './Stories';
+import Calendar from './Calendar';
+import Images from './Images';
+import Setting from './Setting';
 
 const Stack = createStackNavigator();
 const Tabs = createMaterialTopTabNavigator();
@@ -17,10 +21,10 @@ const Tabs = createMaterialTopTabNavigator();
 const TabsApp = (props) => (
   <Tabs.Navigator {...props} tabBar={TopTabBar}>
     <Tabs.Screen name={TAB_SCREEN.HOME} component={Home} />
-    <Tabs.Screen name={TAB_SCREEN.STORIES} component={Home} />
-    <Tabs.Screen name={TAB_SCREEN.CALENDAR} component={Home} />
-    <Tabs.Screen name={TAB_SCREEN.IMAGES} component={Home} />
-    <Tabs.Screen name={TAB_SCREEN.SETTING} component={Home} />
+    <Tabs.Screen name={TAB_SCREEN.STORIES} component={Stories} />
+    <Tabs.Screen name={TAB_SCREEN.CALENDAR} component={Calendar} />
+    <Tabs.Screen name={TAB_SCREEN.IMAGES} component={Images} />
+    <Tabs.Screen name={TAB_SCREEN.SETTING} component={Setting} />
   </Tabs.Navigator>
 )
 

@@ -97,7 +97,8 @@ const TopTabBar = ({ navigation, state, onSearch }) => {
         selectedIndex={state.index}
         onSelect={_selectTab}
         style={{
-          borderWidth: 0
+          borderWidth: 0,
+          height: 50
         }}
       >
         <Tab icon={getIcon({ name: "home-outline" })} />
