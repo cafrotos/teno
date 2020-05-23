@@ -58,7 +58,10 @@ const TopTabBar = ({ navigation, state, onSearch }) => {
             translateY: _getAnimation()
           }
         ],
-        zIndex: 100
+        zIndex: 100,
+        borderBottomWidth: 1,
+        borderBottomColor: "#d0d0d0",
+        backgroundColor: "#ffffff"
       }}
     >
       <View
@@ -95,11 +98,11 @@ const TopTabBar = ({ navigation, state, onSearch }) => {
       </View>
       <TabBar
         selectedIndex={state.index}
-        
+
         onSelect={_selectTab}
         style={{
-          borderWidth: 0,
           height: 50,
+          borderWidth: 0
         }}
       >
         <Tab icon={getIcon({ name: "home-outline" })} />

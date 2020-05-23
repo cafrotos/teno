@@ -6,10 +6,8 @@ import { ScrollView } from 'react-native-gesture-handler';
 export default (props) => {
   return (
     <CustomLayout>
-      <ScrollView
-        style={{ marginTop: 48, flex: 1 }}
-      >
-        <View style={{ height: 1000, backgroundColor: "green" }}>
+      <ScrollView>
+        <View style={{ height: 1000, backgroundColor: "green", marginTop: 48, }}>
 
         </View>
       </ScrollView>
