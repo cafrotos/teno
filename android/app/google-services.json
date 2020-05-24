@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "831814607590",
+    "firebase_url": "https://teno-324ed.firebaseio.com",
+    "project_id": "teno-324ed",
+    "storage_bucket": "teno-324ed.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:831814607590:android:c93374d3b979b698f19127",
+        "android_client_info": {
+          "package_name": "com.teno"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "831814607590-f72oum429blhkpqken8mkdcm56d1snrm.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.teno",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "831814607590-69at1t4dem6m5cgqj9rtedah8ohggv5b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB-UwiNgMdsASehD5LrFOCqSDvbDMQ_S8Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "831814607590-69at1t4dem6m5cgqj9rtedah8ohggv5b.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
