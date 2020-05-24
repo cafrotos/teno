@@ -15,6 +15,8 @@ import Stories from './Stories';
 import Calendar from './Calendar';
 import Images from './Images';
 import Setting from './Setting';
+import CreateNote from './CreateNote';
+import { View } from 'react-native';
 
 const Stack = createStackNavigator();
 const Tabs = createMaterialTopTabNavigator();
@@ -38,19 +40,23 @@ const TabsApp = (props) => {
 }
 
 const renderTabsApp = (props) => <TabsApp {...props} />
+const BlankHeader = () => <View />
 
 export default () => {
   const context = useContext(Contexts)
 
   return (
     <NavigationContainer>
-      <Stack.Navigator headerMode="none">
+      <Stack.Navigator>
         {
           context.globalState.isLogin ?
-            <Stack.Screen name={STACK_NAME.TABS} component={renderTabsApp} /> :
             <>
-              <Stack.Screen name={STACK_NAME.LOGIN} component={Login} />
-              <Stack.Screen name={STACK_NAME.SIGNUP} component={Signup} />
+              <Stack.Screen name={STACK_NAME.TABS} options={{ header: BlankHeader }} component={renderTabsApp} />
+              <Stack.Screen name={STACK_NAME.CREATE_NOTE} component={CreateNote} />
+            </> :
+            <>
+              <Stack.Screen name={STACK_NAME.LOGIN} options={{ header: BlankHeader }} component={Login} />
+              <Stack.Screen name={STACK_NAME.SIGNUP} options={{ header: BlankHeader }} component={Signup} />
             </>
         }
       </Stack.Navigator>

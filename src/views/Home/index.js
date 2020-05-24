@@ -1,12 +1,23 @@
 import React from 'react';
-import { createStackNavigator } from '@react-navigation/stack'
+import CustomLayout from 'components/CustomLayout';
+import { View, ScrollView } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { STACK_NAME } from 'consts/configs';
 
-import ListNotes from './ListNotes';
+export default (props) => {
+  const navigation = useNavigation()
 
-const { Navigator, Screen } = createStackNavigator();
+  const _onPressCreateNote = () => {
+    navigation.navigate(STACK_NAME.CREATE_NOTE)
+  }
 
-export default (props) => (
-  <Navigator headerMode="none">
-    <Screen name={"List Notes"} component={ListNotes} />
-  </Navigator>
-)
+  return (
+    <CustomLayout onButtonPress={_onPressCreateNote}>
+      <ScrollView>
+        <View style={{ height: 1000, backgroundColor: "green", marginTop: 48, }}>
+
+        </View>
+      </ScrollView>
+    </CustomLayout>
+  )
+}
