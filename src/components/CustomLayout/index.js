@@ -12,8 +12,25 @@ const CustomLayout = ({
     <Layout style={{ flex: 1, ...style }}>
       {children}
       {
-        showButton && <Button
-          style={{ height: 50, width: 50, borderRadius: 50, position: "absolute", bottom: 15, right: 15 }}
+        showButton &&
+        <Button
+          style={{
+            height: 50,
+            width: 50,
+            borderRadius: 50,
+            position: "absolute",
+            bottom: 15,
+            right: 15,
+            shadowColor: "#000",
+            shadowOffset: {
+              width: 0,
+              height: 2,
+            },
+            shadowOpacity: 0.25,
+            shadowRadius: 3.84,
+
+            elevation: 5,
+          }}
           accessoryLeft={getIcon({ name: "plus-outline" })}
           onPress={onButtonPress}
         />

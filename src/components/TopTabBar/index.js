@@ -4,10 +4,11 @@ import { TabBar, Tab, Text, Button } from '@ui-kitten/components';
 
 import { getIcon } from 'utils';
 
+let i = 0;
+
 const TopTabBar = ({ navigation, state, onSearch }) => {
   const [tabIndex, setTabIndex] = useState(0)
   const [isMoveIndexTab, setIsMoveIndexTab] = useState(false)
-  const [height, setHeight] = useState(50)
   const animate = new Animated.Value(1)
 
   useEffect(() => {
@@ -24,7 +25,15 @@ const TopTabBar = ({ navigation, state, onSearch }) => {
       Animated.timing(animate, {
         toValue: tabIndex !== 0 ? 1 : 0,
         duration: 200,
-        useNativeDriver: true
+        useNativeDriver: false
+      }).start()
+    }
+    else {
+      animate.setValue(1)
+      Animated.timing(animate, {
+        toValue: 1,
+        duration: 200,
+        useNativeDriver: false
       }).start()
     }
   }, [tabIndex, isMoveIndexTab])
@@ -58,7 +67,7 @@ const TopTabBar = ({ navigation, state, onSearch }) => {
             translateY: _getAnimation()
           }
         ],
-        zIndex: 100,
+        zIndex: 1,
         borderBottomWidth: 1,
         borderBottomColor: "#d0d0d0",
         backgroundColor: "#ffffff"

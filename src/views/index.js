@@ -29,7 +29,11 @@ const TabsApp = (props) => {
     })
   }, [])
   return (
-    <Tabs.Navigator {...props} tabBar={TopTabBar} style={{ backgroundColor: "#ffffff" }}>
+    <Tabs.Navigator
+      {...props}
+      tabBar={TopTabBar}
+      style={{ backgroundColor: "#ffffff" }}
+    >
       <Tabs.Screen name={TAB_SCREEN.HOME} component={Home} />
       <Tabs.Screen name={TAB_SCREEN.STORIES} component={Stories} />
       <Tabs.Screen name={TAB_SCREEN.CALENDAR} component={Calendar} />
