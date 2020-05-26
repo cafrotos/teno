@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { Layout, Button, Text, Icon } from '@ui-kitten/components';
 import Contexts from 'utils/Contexts';
 import { PasswordInput, UsernameInput } from 'components';
-import { onGoogleButtonPress } from 'utils/firebase';
+import { onFacebookButtonPress, onGoogleButtonPress } from 'utils/firebase';
 import { View, Dimensions, ImageBackground, TouchableNativeFeedback } from 'react-native';
 
 export default (props) => {
@@ -49,7 +49,7 @@ export default (props) => {
             <Text style={{ width: "100%", textAlign: "center", marginTop: "5%", color: "white" }}> Hoặc Đăng nhập sử dụng </Text>
             <Layout style={{ flexDirection: 'row', flexWrap: 'wrap', backgroundColor: "transparent", marginTop: "5%", width: "100%" }} level='1'>
               <Button 
-                //onPress={() => onFacebookButtonPress()}
+                onPress={() => onFacebookButtonPress()}
                 accessoryLeft={FacebookIcon} style={{ backgroundColor: "transparent", width: "12.5%", borderColor: "transparent", marginLeft: "35%" }}>
               </Button>
               <Button 

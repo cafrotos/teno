@@ -1,22 +1,23 @@
 import auth from '@react-native-firebase/auth';
 import { GoogleSignin } from '@react-native-community/google-signin';
+import { LoginManager, AccessToken } from 'react-native-fbsdk';
 
   GoogleSignin.configure({
     webClientId: '831814607590-69at1t4dem6m5cgqj9rtedah8ohggv5b.apps.googleusercontent.com'
   });
 
-  // export async function onFacebookButtonPress(){
-    // const result = await LoginManager.logInWithPermissions(['public_profile', 'email']);
-    // const data = await AccessToken.getCurrentAccessToken();
-    // const facebookCredential = auth.FacebookAuthProvider.credential(data.accessToken);
-    // return auth().signInWithCredential(facebookCredential)
-      // .then((data) => {
-      //   return true
-      // })
-      // .catch((error) => {
-      //   return false
-      // });
-  // }
+  export async function onFacebookButtonPress() {
+    await LoginManager.logInWithPermissions(['public_profile', 'email']);
+    const data = await AccessToken.getCurrentAccessToken();
+    const facebookCredential = auth.FacebookAuthProvider.credential(data.accessToken);
+    return auth().signInWithCredential(facebookCredential)
+    .then((data) => {
+      return true
+    })
+    .catch((error) => {
+      return false
+    });
+  }
 
   export async function onGoogleButtonPress() {
     const { idToken } = await GoogleSignin.signIn();
