@@ -3,6 +3,8 @@ import { GoogleSignin } from '@react-native-community/google-signin';
 import { LoginManager, AccessToken } from 'react-native-fbsdk';
 import { FIREBASE_STATUS } from 'consts/configs';
 
+  auth().languageCode = 'vi'
+
   GoogleSignin.configure({
     webClientId: '831814607590-69at1t4dem6m5cgqj9rtedah8ohggv5b.apps.googleusercontent.com'
   });
@@ -45,8 +47,10 @@ import { FIREBASE_STATUS } from 'consts/configs';
 
   export async function onSignUpButtonPress({ email, password }) {
     auth().createUserWithEmailAndPassword(email, password)
-    .then(() => {
-      return FIREBASE_STATUS.SUCCESS
+    .then(async () => {
+      var user = auth().currentUser;
+      await user.sendEmailVerification();
+      return FIREBASE_STATUS.SUCCESS;
     })
     .catch(error => {
       return FIREBASE_STATUS.FAIL
@@ -92,12 +96,9 @@ import { FIREBASE_STATUS } from 'consts/configs';
     }
   }
 
-  export function updateUserProfile() {
+  export function updateUserProfile(user) {
     var user = auth().currentUser;
-    return user.updateProfile({
-      displayName: "Jane Q. User",
-      photoURL: "https://example.com/jane-q-user/profile.jpg"
-    }).then(function() {
+    return user.updateProfile(user).then(function() {
       return FIREBASE_STATUS.SUCCESS
     }).catch(function(error) {
       return FIREBASE_STATUS.FAIL

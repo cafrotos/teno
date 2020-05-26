@@ -13,7 +13,7 @@ export default (props) => {
   const [focusInput, setFocusInput] = React.useState(true);
   const validate = () => {
     setFocusInput(false)
-    return email.match('') && email.length !== 0 && password.match('') && password.length !== 0
+    return email.match('.') && email.length !== 0 && password.match('.') && password.length !== 0
   }
   const image = { uri: "https://sudospaces.com/mobilecity-vn/images/2018/04/hinh-nen-cho-xiaomi-redmi-5-plus-788.jpg" }
   return (
@@ -32,8 +32,8 @@ export default (props) => {
           }}>
             <Text style={{ textAlign: "center", marginBottom: "5%", color: "white" }} category='h2'>Teno</Text>
             <Text style={{ textAlign: "center", marginBottom: "10%", color: "white" }}>Đăng nhập vào tài khoản</Text>
-            <EmailInput setValue={setEmail} value={email} showCaption={!focusInput && (email.length === 0 || !email.match())} onFocus={() => setFocusInput(true)} />
-            <PasswordInput setValue={setPassword} value={password} showCaption={!focusInput && (password.length === 0 || !password.match())} onFocus={() => setFocusInput(true)} />
+            <EmailInput setValue={setEmail} value={email} showCaption={!focusInput && (email.length === 0 || !email.match('.'))} onFocus={() => setFocusInput(true)} />
+            <PasswordInput setValue={setPassword} value={password} showCaption={!focusInput && (password.length === 0 || !password.match('.'))} onFocus={() => setFocusInput(true)} />
             <TouchableNativeFeedback>
               <Text style={{ textAlign: "right", marginTop: "4%", color: "white" }}>Quên mật khẩu? </Text>
             </TouchableNativeFeedback>
