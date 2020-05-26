@@ -43,7 +43,7 @@ export default (props) => {
             <TouchableNativeFeedback>
               <Text style={{ textAlign: "right", marginTop: "4%", color: "white" }}>Quên mật khẩu? </Text>
             </TouchableNativeFeedback>
-            <Button onPress={() => { (validate() ? context.setGlobalState({ isLogin: true }) : "") }} style={{ fontSize: 40, marginTop: "15%", width: "100%" }}>
+            <Button onPress={() => {context.setGlobalState({ isLogin: validate() })}} style={{ fontSize: 40, marginTop: "15%", width: "100%" }}>
               ĐĂNG NHẬP
             </Button>
             <Text style={{ width: "100%", textAlign: "center", marginTop: "5%", color: "white" }}> Hoặc Đăng nhập sử dụng </Text>
@@ -53,7 +53,9 @@ export default (props) => {
                 accessoryLeft={FacebookIcon} style={{ backgroundColor: "transparent", width: "12.5%", borderColor: "transparent", marginLeft: "35%" }}>
               </Button>
               <Button 
-                onPress={onGoogleButtonPress}
+                onPress={() => onGoogleButtonPress().then(res => {
+                  context.setGlobalState({ isLogin: res })
+                })}
                 accessoryLeft={GoogleIcon} style={{ backgroundColor: "transparent", width: "12.5%", marginLeft: "5%", borderColor: "transparent" }}>
               </Button>
             </Layout>
