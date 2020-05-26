@@ -10,6 +10,11 @@ export const STACK_NAME = {
   DETAIL_NOTE: "Detail Note"
 }
 
+export const FIREBASE_STATUS = {
+  SUCCESS: true,
+  FAIL: false
+}
+
 export const TAB_SCREEN = {
   HOME: "Home",
   STORIES: "Stories",
