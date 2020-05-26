@@ -1,8 +1,8 @@
-import React, { useContext } from 'react';
-import { Layout, Button, Text, Icon } from '@ui-kitten/components';
+import React, { useContext, useEffect } from 'react';
+import { Layout, Button, Text, Icon, Spinner } from '@ui-kitten/components';
 import Contexts from 'utils/Contexts';
 import { PasswordInput, EmailInput } from 'components';
-import { onLoginButtonPress, onFacebookButtonPress, onGoogleButtonPress } from 'utils/firebase';
+import { onLoginButtonPress, onFacebookButtonPress, onGoogleButtonPress, checkUserSignIn } from 'utils/firebase';
 import { View, Dimensions, ImageBackground, TouchableNativeFeedback } from 'react-native';
 
 export default (props) => {
@@ -11,6 +11,26 @@ export default (props) => {
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
   const [focusInput, setFocusInput] = React.useState(true);
+  const [loading, setLoading] = React.useState(false);
+
+  useEffect(() => {
+    _checkUserSignin()
+  }, [])
+
+  const _checkUserSignin = async () => {
+    setLoading(true)
+    const isUserSignin = await checkUserSignIn();
+    setLoading(false)
+    if (isUserSignin) {
+      return context.setGlobalState({
+        isLogin: true
+      })
+    }
+    return context.setGlobalState({
+      isLogin: false
+    })
+  }
+
   const validate = () => {
     setFocusInput(false)
     return email.match('.') && email.length !== 0 && password.match('.') && password.length !== 0
@@ -18,6 +38,20 @@ export default (props) => {
   const image = { uri: "https://sudospaces.com/mobilecity-vn/images/2018/04/hinh-nen-cho-xiaomi-redmi-5-plus-788.jpg" }
   return (
     <Layout>
+      <Layout
+        style={{
+          position: "absolute",
+          width: "100%",
+          height: "100%",
+          zIndex: 1,
+          backgroundColor: "rgba(0, 0, 0, 0.25)",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center"
+        }}
+      >
+        <Spinner size='giant' />
+      </Layout>
       <View style={{ height: screenHeight }}>
         <ImageBackground source={image} style={{ flex: 1, resizeMode: "cover", justifyContent: "center", width: "100%", height: "100%" }}>
           <View style={{
