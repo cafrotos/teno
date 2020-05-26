@@ -38,21 +38,24 @@ export default (props) => {
   const image = { uri: "https://sudospaces.com/mobilecity-vn/images/2018/04/hinh-nen-cho-xiaomi-redmi-5-plus-788.jpg" }
   return (
     <Layout>
-      <Layout
-        style={{
-          position: "absolute",
-          width: "100%",
-          height: "100%",
-          zIndex: 1,
-          backgroundColor: "rgba(0, 0, 0, 0.25)",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center"
-        }}
-      >
-        <Spinner size='giant' />
-      </Layout>
-      <View style={{ height: screenHeight }}>
+      {
+        loading &&
+        <Layout
+          style={{
+            position: "absolute",
+            width: "100%",
+            height: "100%",
+            zIndex: 1,
+            backgroundColor: "rgba(0, 0, 0, 0.25)",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center"
+          }}
+        >
+          <Spinner size='giant' />
+        </Layout>
+      }
+      <View style={{ height: "100%" }}>
         <ImageBackground source={image} style={{ flex: 1, resizeMode: "cover", justifyContent: "center", width: "100%", height: "100%" }}>
           <View style={{
             position: "relative",
