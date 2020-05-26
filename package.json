@@ -15,14 +15,18 @@
     "@react-native-community/masked-view": "^0.1.10",
     "@react-native-firebase/app": "^7.1.0",
     "@react-native-firebase/auth": "^7.1.0",
+    "@react-navigation/drawer": "^5.7.7",
+    "@react-navigation/material-top-tabs": "^5.2.7",
     "@react-navigation/native": "^5.4.2",
     "@react-navigation/stack": "^5.3.9",
     "@ui-kitten/components": "^5.0.0",
     "@ui-kitten/eva-icons": "^5.0.0",
     "apis": "file:src/apis",
+    "assets": "file:src/assets",
     "components": "file:src/components",
     "consts": "file:src/constants",
     "locales": "file:src/locales",
+    "moment": "^2.26.0",
     "react": "16.11.0",
     "react-native": "0.62.2",
     "react-native-fbsdk": "^2.0.0",
@@ -31,6 +35,7 @@
     "react-native-safe-area-context": "^1.0.2",
     "react-native-screens": "^2.7.0",
     "react-native-svg": "^12.1.0",
+    "react-native-tab-view": "^2.14.2",
     "utils": "file:src/utils",
     "views": "file:src/views"
   },
@@ -46,5 +51,10 @@
   },
   "jest": {
     "preset": "react-native"
+  },
+  "rnpm": {
+    "assets": [
+      "./src/assets/fonts/"
+    ]
   }
 }
