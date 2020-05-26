@@ -1,13 +1,15 @@
 import React from 'react';
 import CustomLayout from 'components/CustomLayout';
-import { Text } from '@ui-kitten/components';
+import { Text, Calendar } from '@ui-kitten/components';
 
 export default (props) => {
   return (
     <CustomLayout showButton={false}>
-      <Text>
-        Calendar
-      </Text>
+      <Calendar 
+        style={{
+          width: "100%"
+        }}
+      />
     </CustomLayout>
   )
 }

@@ -1,14 +1,25 @@
 import React, { useState } from 'react';
 import CustomLayout from 'components/CustomLayout';
-import { View, ScrollView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { STACK_NAME } from 'consts/configs';
-import Diary from 'components/Diary';
 import ListDiaries from 'components/ListDiaries';
 
 export default (props) => {
   const navigation = useNavigation()
-  const [data, setData] = useState([1, 2, 3]);
+  const [data, setData] = useState([
+    {
+      note: "Nevermind i will find someone like you, i wish nothing but the best for you too",
+      date: new Date()
+    },
+    {
+      note: "Nevermind i will find someone like you, i wish nothing but the best for you too",
+      date: new Date()
+    },
+    {
+      note: "Nevermind i will find someone like you, i wish nothing but the best for you too",
+      date: new Date()
+    }
+  ]);
 
   const onRefresh = async () => {
     /**
@@ -16,7 +27,33 @@ export default (props) => {
      */
     return new Promise((resolve, reject) => {
       setTimeout(() => {
-        setData([...data, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
+        setData([
+          ...data,
+          {
+            note: "Nevermind i will find someone like you, i wish nothing but the best for you too",
+            date: new Date()
+          },
+          {
+            note: "Nevermind i will find someone like you, i wish nothing but the best for you too",
+            date: new Date()
+          },
+          {
+            note: "Nevermind i will find someone like you, i wish nothing but the best for you too",
+            date: new Date()
+          },
+          {
+            note: "Nevermind i will find someone like you, i wish nothing but the best for you too",
+            date: new Date()
+          },
+          {
+            note: "Nevermind i will find someone like you, i wish nothing but the best for you too",
+            date: new Date()
+          },
+          {
+            note: "Nevermind i will find someone like you, i wish nothing but the best for you too",
+            date: new Date()
+          }
+        ])
         if (data.length > 100) {
           return resolve(true)
         }

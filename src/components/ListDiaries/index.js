@@ -16,14 +16,16 @@ const ListDiaries = ({
   data,
   marginTop,
   onRefresh,
-  onItemPress
+  onItemPress,
+  header
 }) => {
   const [isRefresh, setIsRefresh] = useState(false)
   const [isEndData, setIsEndData] = useState(false)
 
   const renderItem = ({ item, index }) => (
     <Diary
-      topText={moment().format("hh:mm DD/MM/YYYY")}
+      {...item}
+      topText={moment(item.date).format("hh:mm DD/MM/YYYY")}
       onPress={(event) => onItemPress(item, event)}
     />
   )
@@ -41,7 +43,7 @@ const ListDiaries = ({
   )
 
   const ListHeaderComponent = () => (
-    <View style={{ marginTop, backgroundColor: "#ffffff" }} />
+    header || <View style={{ marginTop, backgroundColor: "#ffffff" }} />
   )
 
   const ItemSeparatorComponent = () => (
@@ -82,9 +84,9 @@ const ListDiaries = ({
 
 ListDiaries.defaultProps = {
   data: [],
-  marginTop: 48,
-  onRefresh: () => {},  
-  onItemPress: () => {}
+  marginTop: 16,
+  onRefresh: () => { },
+  onItemPress: () => { }
 }
 
 export default ListDiaries
