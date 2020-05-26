@@ -1,6 +1,7 @@
 import auth from '@react-native-firebase/auth';
 import { GoogleSignin } from '@react-native-community/google-signin';
 import { LoginManager, AccessToken } from 'react-native-fbsdk';
+import { FIREBASE_STATUS } from 'consts/configs';
 
   GoogleSignin.configure({
     webClientId: '831814607590-69at1t4dem6m5cgqj9rtedah8ohggv5b.apps.googleusercontent.com'
@@ -12,10 +13,10 @@ import { LoginManager, AccessToken } from 'react-native-fbsdk';
     const facebookCredential = auth.FacebookAuthProvider.credential(data.accessToken);
     return auth().signInWithCredential(facebookCredential)
     .then((data) => {
-      return true
+      return FIREBASE_STATUS.SUCCESS
     })
     .catch((error) => {
-      return false
+      return FIREBASE_STATUS.FAIL
     });
   }
 
@@ -25,30 +26,40 @@ import { LoginManager, AccessToken } from 'react-native-fbsdk';
     const credential = provider.credential(idToken);
     return auth().signInWithCredential(credential)
     .then((data) => {
-      return true
+      return FIREBASE_STATUS.SUCCESS
     })
     .catch((error) => {
-      return false
+      return FIREBASE_STATUS.FAIL
     });
   }
 
   export async function onLoginButtonPress({ email, password }) {
     return auth().signInWithEmailAndPassword(email, password)
     .then((data) => {
-      return true
+      return FIREBASE_STATUS.SUCCESS
     })
     .catch((error) => {
-      return false
+      return FIREBASE_STATUS.FAIL
+    });
+  }
+
+  export async function onSignUpButtonPress({ email, password }) {
+    auth().createUserWithEmailAndPassword(email, password)
+    .then(() => {
+      return FIREBASE_STATUS.SUCCESS
+    })
+    .catch(error => {
+      return FIREBASE_STATUS.FAIL
     });
   }
 
   export async function onSignOutButtonPress() {
     auth().signOut()
     .then(() => {
-      return true
+      return FIREBASE_STATUS.SUCCESS
     })
     .catch(() => {
-      return false
+      return FIREBASE_STATUS.FAIL
     })
   }
 
@@ -56,9 +67,9 @@ import { LoginManager, AccessToken } from 'react-native-fbsdk';
   export async function checkUserSignIn() {
     return auth().onAuthStateChanged(function(user) {
       if (user) {
-        return true
+        return FIREBASE_STATUS.SUCCESS
       } else {
-        return false
+        return FIREBASE_STATUS.FAIL
       }
     });
   }
@@ -68,9 +79,9 @@ import { LoginManager, AccessToken } from 'react-native-fbsdk';
     var user = auth().currentUser;
     var credential;
     return user.reauthenticateWithCredential(credential).then(function() {
-      return true
+      return FIREBASE_STATUS.SUCCESS
     }).catch(function(error) {
-      return false
+      return FIREBASE_STATUS.FAIL
     });
   }
 
@@ -87,8 +98,8 @@ import { LoginManager, AccessToken } from 'react-native-fbsdk';
       displayName: "Jane Q. User",
       photoURL: "https://example.com/jane-q-user/profile.jpg"
     }).then(function() {
-      return true
+      return FIREBASE_STATUS.SUCCESS
     }).catch(function(error) {
-      return false
+      return FIREBASE_STATUS.FAIL
     });
   }

@@ -3,3 +3,8 @@ export const STACK_NAME = {
   LOGIN: "Log in",
   SIGNIN: "Sign in"
 }
+
+export const FIREBASE_STATUS = {
+  SUCCESS: true,
+  FAIL: false
+}

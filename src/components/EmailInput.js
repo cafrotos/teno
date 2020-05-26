@@ -9,11 +9,11 @@ const AlertIcon = (props) => (
   <Icon {...props} name='alert-circle-outline' />
 );
 
-export const UsernameInput = (props) => {
+export const EmailInput = (props) => {
   return (
     <Input
       value={props.value}
-      placeholder='Tên đăng nhập'
+      placeholder='Email'
       accessoryRight={renderIcon}
       onChangeText={nextValue => props.setValue(nextValue)}
       placeholderTextColor="white"
@@ -21,7 +21,7 @@ export const UsernameInput = (props) => {
       onFocus={props.onFocus}
       status={props.showCaption ? 'danger' : 'basic'}
       captionIcon={props.showCaption ? AlertIcon : ""}
-      caption={props.showCaption ? 'Vui lòng nhập tên đăng nhập' : ''}
+      caption={props.showCaption ? 'Vui lòng nhập email' : ''}
       style={{
         fontSize: 20,
         color: "rgb(255,255,255) !important",
@@ -32,4 +32,4 @@ export const UsernameInput = (props) => {
   );
 };
 
-export default UsernameInput
+export default EmailInput
