@@ -10,6 +10,9 @@ export default (props) => {
   const [data, setData] = useState([]);
 
   useEffect(() => {
+    NotesRepository.create({
+      content: "HAHAHAHAHAHA"
+    })
     _onRefresh()
   }, [])
 
