@@ -1,16 +1,18 @@
-import React, { useReducer, useContext } from 'react';
-import { Text, Layout, Input, Button } from '@ui-kitten/components';
+import React, { useReducer, useContext, useState } from 'react';
+import { Text, Input, Button } from '@ui-kitten/components';
+import { useNavigation } from '@react-navigation/native';
+import { TouchableWithoutFeedback, ImageBackground, View } from 'react-native';
 
 import { getIcon, defReduceState } from 'utils';
 import Contexts from 'utils/Contexts';
-import { REG_EMAIL, REG_PASSWORD } from 'consts/configs';
-import { View, Dimensions } from 'react-native';
-
-const width = Dimensions.get("screen").width
+import { REG_EMAIL, REG_PASSWORD, STACK_NAME } from 'consts/configs';
+import { onSignUpButtonPress } from 'utils/firebase'
 
 export default (props) => {
   const [state, setState] = useReducer(defReduceState({}), {})
+  const [isSecure, setIsSecure] = useState(true)
   const context = useContext(Contexts);
+  const navigation = useNavigation()
 
   const _onChangeInput = (field) => (text) => {
     setState({
@@ -43,91 +45,143 @@ export default (props) => {
     return true
   }
 
-  const _onRegister = () => {
+  const _onRegister = async () => {
     if (!_validate()) {
       return
     }
-    context.setGlobalState({
-      isLogin: true
+    const status = await onSignUpButtonPress({
+      email: state.email,
+      password: state.password
     })
+    if (status) {
+      context.setGlobalState({
+        isLogin: true
+      })
+    }
   }
 
+  const _onPressSignin = () => {
+    navigation.navigate(STACK_NAME.LOGIN)
+  }
+
+  const Icon = getIcon({ name: isSecure ? "eye-off-outline" : "eye-outline" })
+
+  const renderIcon = (props) => (
+    <TouchableWithoutFeedback
+      onPress={() => setIsSecure(!isSecure)}
+      style={{
+        padding: 5
+      }}
+    >
+      <Icon {...props} />
+    </TouchableWithoutFeedback>
+  )
+
   return (
-    <Layout style={{ flex: 3, padding: "10%", paddingBottom: 20 }}>
-      <Layout style={{ display: "flex", alignItems: "center", flex: 1, justifyContent: "flex-end" }}>
-        <Text category="h1" style={{ fontWeight: "bold" }}>
-          Teno
-        </Text>
-      </Layout>
-      <Layout style={{ flex: 4, justifyContent: "center" }}>
-        <Input
-          placeholder="Tên đăng nhập"
-          accessoryRight={getIcon({ name: "person-outline" })}
-          value={state.username}
-          caption={state.usernameErr}
-          status={state.usernameErr && state.usernameErr !== "" && "danger"}
-          onChangeText={_onChangeInput("username")}
+    <ImageBackground
+      source={{
+        uri: "https://sudospaces.com/mobilecity-vn/images/2018/04/hinh-nen-cho-xiaomi-redmi-5-plus-788.jpg"
+      }}
+      style={{
+        flex: 1,
+        resizeMode: "cover",
+        justifyContent: "center",
+        width: "100%",
+        height: "100%"
+      }}
+    >
+      <View
+        style={{
+          flex: 3,
+          padding: "10%",
+          paddingBottom: 20,
+          backgroundColor: "rgba(0, 0, 0, 0.5)"
+        }}>
+        <View
           style={{
-            marginBottom: 10
-          }}
-        />
-        <Input
-          placeholder="Email"
-          accessoryRight={getIcon({ name: "email-outline" })}
-          value={state.email}
-          caption={state.emailErr}
-          status={state.emailErr && state.emailErr !== "" && "danger"}
-          onChangeText={_onChangeInput("email")}
-          keyboardType="email-address"
-          style={{
-            marginBottom: 10
-          }}
-        />
-        <Input
-          placeholder="Mật khẩu"
-          accessoryRight={getIcon({ name: "person-outline" })}
-          value={state.password}
-          caption={(props) => (
-            <Text {...props}>{state.passwordErr}</Text>
-          )}
-          status={state.passwordErr && state.passwordErr !== "" && "danger"}
-          onChangeText={_onChangeInput("password")}
-          keyboardType="visible-password"
-          style={{
-            marginBottom: 10
-          }}
-        />
-      </Layout>
-      <Layout style={{ flex: 1, justifyContent: "center" }}>
-        <Button
-          onPress={_onRegister}
-        >
-          Đăng ký
-        </Button>
-      </Layout>
-      <Layout>
-        <Text style={{ textAlign: "center" }}>
-          Hoặc đăng ký với tài khoản khác
-        </Text>
-        <Layout
-          style={{ display: "flex", flexDirection: "row", justifyContent: "space-evenly" }}
-        >
-          <Button
-            accessoryLeft={getIcon({ name: "facebook" })}
-            appearance="ghost"
+            display: "flex",
+            alignItems: "center",
+            flex: 1,
+            justifyContent: "flex-end",
+          }}>
+          <Text category="h1" style={{ fontWeight: "bold" }}>
+            Teno
+          </Text>
+          <Text>
+            Đăng ký tài khoản mới
+          </Text>
+        </View>
+        <View style={{ flex: 3, justifyContent: "center", paddingTop: 10 }}>
+          <Input
+            placeholder="Tên đăng nhập"
+            accessoryRight={getIcon({ name: "person-outline" })}
+            value={state.username}
+            caption={state.usernameErr}
+            status={state.usernameErr && state.usernameErr !== "" && "danger"}
+            onChangeText={_onChangeInput("username")}
+            style={{
+              marginBottom: 10
+            }}
           />
-          <Button
-            accessoryLeft={getIcon({ name: "google" })}
-            appearance="ghost"
+          <Input
+            placeholder="Email"
+            accessoryRight={getIcon({ name: "email-outline" })}
+            value={state.email}
+            caption={state.emailErr}
+            status={state.emailErr && state.emailErr !== "" && "danger"}
+            onChangeText={_onChangeInput("email")}
+            keyboardType="email-address"
+            style={{
+              marginBottom: 10
+            }}
           />
-        </Layout>
-        <Button
-          appearance="ghost"
-          status="control"
-        >
-          Đã có tài khoản? Đăng nhập
+          <Input
+            placeholder="Mật khẩu"
+            accessoryRight={renderIcon}
+            value={state.password}
+            caption={(props) => (
+              <Text {...props}>{state.passwordErr}</Text>
+            )}
+            status={state.passwordErr && state.passwordErr !== "" && "danger"}
+            onChangeText={_onChangeInput("password")}
+            secureTextEntry={isSecure}
+            style={{
+              marginBottom: 10
+            }}
+          />
+        </View>
+        <View style={{ flex: 1, justifyContent: "center" }}>
+          <Button
+            onPress={_onRegister}
+          >
+            Đăng ký
         </Button>
-      </Layout>
-    </Layout>
+        </View>
+        <View>
+          <Text style={{ textAlign: "center" }}>
+            Hoặc đăng ký với tài khoản khác
+        </Text>
+          <View
+            style={{ display: "flex", flexDirection: "row", justifyContent: "space-evenly" }}
+          >
+            <Button
+              accessoryLeft={getIcon({ name: "facebook" })}
+              appearance="ghost"
+            />
+            <Button
+              accessoryLeft={getIcon({ name: "google" })}
+              appearance="ghost"
+            />
+          </View>
+          <Button
+            appearance="ghost"
+            status="control"
+            onPress={_onPressSignin}
+          >
+            Đã có tài khoản? Đăng nhập
+        </Button>
+        </View>
+      </View>
+    </ImageBackground>
   )
 }

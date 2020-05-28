@@ -11,6 +11,7 @@ import moment from 'moment'
  * @param {Number} props.marginTop
  * @param {Function} props.onRefresh return value is ended data
  * @param {Function} props.onItemPress
+ * @param {React.Component} props.header
  */
 const ListDiaries = ({
   data,
@@ -22,13 +23,16 @@ const ListDiaries = ({
   const [isRefresh, setIsRefresh] = useState(false)
   const [isEndData, setIsEndData] = useState(false)
 
-  const renderItem = ({ item, index }) => (
-    <Diary
-      {...item}
-      topText={moment(item.date).format("hh:mm DD/MM/YYYY")}
-      onPress={(event) => onItemPress(item, event)}
-    />
-  )
+  const renderItem = ({ item, index }) => {
+    return (
+      <Diary
+        {...item}
+        content={item.content} 
+        topText={moment(item.date).format("hh:mm DD/MM/YYYY")}
+        onPress={(event) => onItemPress(item, event)}
+      />
+    )
+  }
 
   const keyExtractor = (item, index) => index.toString()
 

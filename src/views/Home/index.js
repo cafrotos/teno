@@ -1,65 +1,36 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import CustomLayout from 'components/CustomLayout';
 import { useNavigation } from '@react-navigation/native';
 import { STACK_NAME } from 'consts/configs';
 import ListDiaries from 'components/ListDiaries';
+import { NotesRepository } from 'repositories';
 
 export default (props) => {
   const navigation = useNavigation()
-  const [data, setData] = useState([
-    {
-      note: "Nevermind i will find someone like you, i wish nothing but the best for you too",
-      date: new Date()
-    },
-    {
-      note: "Nevermind i will find someone like you, i wish nothing but the best for you too",
-      date: new Date()
-    },
-    {
-      note: "Nevermind i will find someone like you, i wish nothing but the best for you too",
-      date: new Date()
-    }
-  ]);
+  const [data, setData] = useState([]);
 
-  const onRefresh = async () => {
-    /**
-     * @fixme mockup get data, return boolen value is ended data
-     */
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        setData([
-          ...data,
-          {
-            note: "Nevermind i will find someone like you, i wish nothing but the best for you too",
-            date: new Date()
-          },
-          {
-            note: "Nevermind i will find someone like you, i wish nothing but the best for you too",
-            date: new Date()
-          },
-          {
-            note: "Nevermind i will find someone like you, i wish nothing but the best for you too",
-            date: new Date()
-          },
-          {
-            note: "Nevermind i will find someone like you, i wish nothing but the best for you too",
-            date: new Date()
-          },
-          {
-            note: "Nevermind i will find someone like you, i wish nothing but the best for you too",
-            date: new Date()
-          },
-          {
-            note: "Nevermind i will find someone like you, i wish nothing but the best for you too",
-            date: new Date()
-          }
-        ])
-        if (data.length > 100) {
-          return resolve(true)
-        }
-        return resolve(false)
-      }, 3000);
+  useEffect(() => {
+    NotesRepository.create({
+      content: "HAHAHAHAHAHA"
     })
+    _onRefresh()
+  }, [])
+
+  const _onRefresh = async () => {
+    try {
+      const notes = await NotesRepository.get();
+      const _data = data;
+      _data.push(
+        ...Object.values(
+          notes
+            .sorted('date', true)
+            .slice(data.length, data.length + 20)
+        )
+      )
+      setData(_data)
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   const _onPressCreateNote = () => {
@@ -73,7 +44,7 @@ export default (props) => {
       <ListDiaries
         data={data}
         marginTop={68}
-        onRefresh={onRefresh}
+        onRefresh={_onRefresh}
       />
     </CustomLayout>
   )

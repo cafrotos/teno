@@ -1,6 +1,6 @@
 import 'react-native-gesture-handler';
 
-import React, { useReducer } from 'react';
+import React, { useReducer, useEffect } from 'react';
 import * as eva from '@eva-design/eva';
 import { ApplicationProvider, IconRegistry } from '@ui-kitten/components';
 import { EvaIconsPack } from '@ui-kitten/eva-icons';
@@ -16,6 +16,14 @@ const initialState = {
 
 export default () => {
   const [globalState, setGlobalState] = useReducer(defReduceState(initialState), initialState)
+
+  useEffect(() => {
+    if (!globalState.isLogin) {
+      setGlobalState({
+        theme: eva.dark
+      })
+    }
+  }, [globalState.isLogin])
 
   return (
     <Contexts.Provider

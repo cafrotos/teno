@@ -37,7 +37,7 @@ const TabsApp = (props) => {
       <Tabs.Screen name={TAB_SCREEN.HOME} component={Home} />
       <Tabs.Screen name={TAB_SCREEN.STORIES} component={Stories} />
       <Tabs.Screen name={TAB_SCREEN.CALENDAR} component={Calendar} />
-      <Tabs.Screen name={TAB_SCREEN.IMAGES} component={Images} />
+      {/* <Tabs.Screen name={TAB_SCREEN.IMAGES} component={Images} /> */}
       <Tabs.Screen name={TAB_SCREEN.SETTING} component={Setting} />
     </Tabs.Navigator>
   )

@@ -46,7 +46,7 @@ export async function onLoginButtonPress({ email, password }) {
 }
 
 export async function onSignUpButtonPress({ email, password }) {
-  auth().createUserWithEmailAndPassword(email, password)
+  return auth().createUserWithEmailAndPassword(email, password)
     .then(async () => {
       var user = auth().currentUser;
       await user.sendEmailVerification();
@@ -58,7 +58,7 @@ export async function onSignUpButtonPress({ email, password }) {
 }
 
 export async function onSignOutButtonPress() {
-  auth().signOut()
+  return auth().signOut()
     .then(() => {
       return FIREBASE_STATUS.SUCCESS
     })
