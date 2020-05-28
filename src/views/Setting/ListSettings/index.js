@@ -1,13 +1,28 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { Menu, MenuItem } from '@ui-kitten/components';
+
 import CustomLayout from 'components/CustomLayout';
-import { Text } from '@ui-kitten/components';
+import { onSignOutButtonPress } from 'utils/firebase';
+import Contexts from 'utils/Contexts';
 
 export default (props) => {
+  const context = useContext(Contexts);
+
+  const _onPressLogout = async () => {
+    console.log("Press")
+    const isLogout = await onSignOutButtonPress();
+    if(isLogout) {
+      context.setGlobalState({
+        isLogin: false
+      })
+    }
+  }
+
   return (
     <CustomLayout showButton={false}>
-      <Text>
-        Calendar
-      </Text>
+      <Menu>
+        <MenuItem title="Đăng xuất" onPress={_onPressLogout} />
+      </Menu>
     </CustomLayout>
   )
 }

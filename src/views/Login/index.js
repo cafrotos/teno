@@ -4,10 +4,13 @@ import Contexts from 'utils/Contexts';
 import { PasswordInput, EmailInput } from 'components';
 import { onLoginButtonPress, onFacebookButtonPress, onGoogleButtonPress, checkUserSignIn } from 'utils/firebase';
 import { View, Dimensions, ImageBackground, TouchableNativeFeedback } from 'react-native';
+import { REG_EMAIL, REG_PASSWORD, STACK_NAME } from 'consts/configs';
+import { useNavigation } from '@react-navigation/native';
 
 export default (props) => {
   const context = useContext(Contexts)
-  let screenHeight = Dimensions.get("window").height;
+  const navigation = useNavigation();
+
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
   const [focusInput, setFocusInput] = React.useState(true);
@@ -33,8 +36,13 @@ export default (props) => {
 
   const validate = () => {
     setFocusInput(false)
-    return email.match('.') && email.length !== 0 && password.match('.') && password.length !== 0
+    return email.match(REG_EMAIL) && email.length !== 0 && password.match(REG_PASSWORD) && password.length !== 0
   }
+
+  const _onPressSignup = () => {
+    navigation.navigate(STACK_NAME.SIGNUP)
+  }
+
   const image = { uri: "https://sudospaces.com/mobilecity-vn/images/2018/04/hinh-nen-cho-xiaomi-redmi-5-plus-788.jpg" }
   return (
     <Layout>
@@ -61,16 +69,16 @@ export default (props) => {
             position: "relative",
             paddingLeft: "10%",
             paddingRight: "10%",
-            height: screenHeight,
+            height: "100%",
             backgroundColor: "rgba(0,0,0,.5)",
             flex: 1,
             justifyContent: 'center',
             alignItems: 'center',
           }}>
-            <Text style={{ textAlign: "center", marginBottom: "5%", color: "white" }} category='h2'>Teno</Text>
+            <Text style={{ textAlign: "center", marginBottom: "5%", color: "white", fontWeight: "bold" }} category='h2'>Teno</Text>
             <Text style={{ textAlign: "center", marginBottom: "10%", color: "white" }}>Đăng nhập vào tài khoản</Text>
-            <EmailInput setValue={setEmail} value={email} showCaption={!focusInput && (email.length === 0 || !email.match('.'))} onFocus={() => setFocusInput(true)} />
-            <PasswordInput setValue={setPassword} value={password} showCaption={!focusInput && (password.length === 0 || !password.match('.'))} onFocus={() => setFocusInput(true)} />
+            <EmailInput setValue={setEmail} value={email} showCaption={!focusInput && (email.length === 0 || !email.match(REG_EMAIL))} onFocus={() => setFocusInput(true)} />
+            <PasswordInput setValue={setPassword} value={password} showCaption={!focusInput && (password.length === 0 || !password.match(REG_PASSWORD))} onFocus={() => setFocusInput(true)} />
             <TouchableNativeFeedback>
               <Text style={{ textAlign: "right", marginTop: "4%", color: "white" }}>Quên mật khẩu? </Text>
             </TouchableNativeFeedback>
@@ -97,11 +105,13 @@ export default (props) => {
                 accessoryLeft={(props) => <Icon {...props} name='google' />} style={{ backgroundColor: "transparent", width: "12.5%", marginLeft: "5%", borderColor: "transparent" }}>
               </Button>
             </Layout>
-            <Text style={{ textAlign: "center", marginTop: "4%", color: "white" }}> Không có tài khoản?
-            <TouchableNativeFeedback>
-                <Text style={{ textAlign: "center", color: "white" }}> Đăng ký </Text>
-              </TouchableNativeFeedback>
-            </Text>
+            <Button
+              appearance="ghost"
+              status="control"
+              onPress={_onPressSignup}
+            >
+              Không có tài khoản? Đăng ký
+            </Button>
           </View>
         </ImageBackground>
       </View>
