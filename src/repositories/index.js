@@ -1,3 +1,5 @@
+import 'react-native-get-random-values'
+
 import Realm from 'realm';
 import { v1 as uuid } from 'uuid'
 
@@ -85,7 +87,6 @@ const getById = (schema, objectId) => new Promise((resolve, reject) => {
   Realm.open(schemaOptions)
     .then(realm => {
       resolve(realm.objectForPrimaryKey(schema, objectId))
-      realm.close()
     })
     .catch(err => reject(err))
 })
