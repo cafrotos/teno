@@ -12,18 +12,18 @@ export default (props) => {
   const navigation = useNavigation();
 
   const _onChangeContent = (text) => {
-    setContent(content)
+    setContent(text)
   }
 
   const _onSaveContent = async () => {
     if (content && content !== "") {
-      // await NotesRepository.create({
-      //   content
-      // })
+      await NotesRepository.create({
+        content
+      })
       navigation.goBack()
       return
     }
-    ToastAndroid.showWithGravity("Bạn chưa nhập nội dung!")
+    ToastAndroid.show("Bạn chưa nhập nội dung!", 1000)
   }
 
   return (
