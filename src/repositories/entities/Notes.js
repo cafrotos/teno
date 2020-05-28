@@ -11,6 +11,6 @@ export default {
     weatherTemperature: 'string?',
     location: 'string?',
     createdAt: 'date',
-    updatedAt: 'date',
+    updatedAt: 'date?',
   }
 }
