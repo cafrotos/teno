@@ -5,6 +5,7 @@ import ListDiaries from 'components/ListDiaries';
 
 export default (props) => {
   const [date, setDate] = useState(new Date());
+  const [data, setData] = useState([])
 
   const _onChangeDate = (_date) => setDate(_date)
 
