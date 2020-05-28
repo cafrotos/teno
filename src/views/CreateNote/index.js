@@ -3,14 +3,14 @@ import CustomLayout from 'components/CustomLayout';
 import { Text, Input, Layout, Button } from '@ui-kitten/components';
 import { View } from 'react-native';
 import Icon from 'utils/weather-icon/weatherIcon';
-import { getLocation, getData, getWeather } from 'utils/weather';
+import { getLocation, getData } from 'utils/weather';
 
 export default (props) => {
 
   useEffect(async () => {
-    // await getWeather()
-    // let data = new getData()
-    //console.log(data)
+    getLocation()
+    let data = new getData()
+    console.log(data)
   })
 
   return (
