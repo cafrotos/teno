@@ -11,6 +11,7 @@ import moment from 'moment'
  * @param {Number} props.marginTop
  * @param {Function} props.onRefresh return value is ended data
  * @param {Function} props.onItemPress
+ * @param {React.Component} props.header
  */
 const ListDiaries = ({
   data,
