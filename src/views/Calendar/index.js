@@ -1,11 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import CustomLayout from 'components/CustomLayout';
 import { Calendar } from '@ui-kitten/components';
+import moment from 'moment'
+
 import ListDiaries from 'components/ListDiaries';
+import { NotesRepository } from 'repositories';
 
 export default (props) => {
   const [date, setDate] = useState(new Date());
   const [data, setData] = useState([])
+
+  useEffect(() => {
+    _onRefresh()
+  }, [date])
 
   const _onChangeDate = (_date) => setDate(_date)
 
@@ -13,10 +20,12 @@ export default (props) => {
     const notes = await NotesRepository.get();
     const _data = data;
     _data.push(
-      ...notes
-        .sorted('date', true)
-        .filtered(`date === ${moment(date).format("YYYY-MM-DD")}`)
-        .slice(data.length, data.length + 20)
+      ...Object.values(
+        notes
+          .sorted('date', true)
+          // .filtered(`date >= ${moment(date).format("YYYY-MM-DD")}@0:0 && date <= ${moment(date).format("YYYY-MM-DD")}@23:59`)
+          .slice(data.length, data.length + 20)
+      )
     )
     setData(_data)
   }
@@ -31,7 +40,8 @@ export default (props) => {
             date={date}
             onSelect={_onChangeDate}
             style={{
-              width: "100%"
+              width: "100%",
+              marginBottom: 24
             }}
           />
         }
