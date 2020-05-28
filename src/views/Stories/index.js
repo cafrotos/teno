@@ -82,7 +82,7 @@ export default (props) => {
   }
 
   const _onCreateStory = () => {
-    navigation.navigate(STACK_NAME.CREATE_content)
+    navigation.navigate(STACK_NAME.CREATE_NOTE)
   }
 
   return (
