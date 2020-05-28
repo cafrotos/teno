@@ -6,6 +6,7 @@ const Diary = ({
   topText,
   avatar,
   username,
+  content,
   numberOfLines,
   onPress
 }) => {
@@ -104,7 +105,7 @@ const Diary = ({
         <Text
           numberOfLines={numberOfLines}
         >
-          sdfhjsdkfhj sdfhjsdkfhj sdfhjsdkfhj sdfhjsdkfhj sdfhjsdkfhj sdfhjsdkfhj sdfhjsdkfhj sdfhjsdkfhj sdfhjsdkfhj sdfhjsdkfhj sdfhjsdkfhj sdfhjsdkfhj sdfhjsdkfhj sdfhjsdkfhj sdfhjsdkfhj sdfhjsdkfhj sdfhjsdkfhj sdfhjsdkfhj sdfhjsdkfhj sdfhjsdkfhj sdfhjsdkfhj sdfhjsdkfhj sdfhjsdkfhj sdfhjsdkfhj sdfhjsdkfhj sdfhjsdkfhj sdfhjsdkfhj sdfhjsdkfhj sdfhjsdkfhj sdfhjsdkfhj sdfhjsdkfhj sdfhjsdkfhj sdfhjsdkfhj sdfhjsdkfhj sdfhjsdkfhj sdfhjsdkfhj sdfhjsdkfhj sdfhjsdkfhj sdfhjsdkfhj sdfhjsdkfhj sdfhjsdkfhj sdfhjsdkfhj sdfhjsdkfhj sdfhjsdkfhj sdfhjsdkfhj sdfhjsdkfhj sdfhjsdkfhj sdfhjsdkfhj sdfhjsdkfhj sdfhjsdkfhj sdfhjsdkfhj sdfhjsdkfhj sdfhjsdkfhj sdfhjsdkfhj sdfhjsdkfhj sdfhjsdkfhj sdfhjsdkfhj sdfhjsdkfhj sdfhjsdkfhj sdfhjsdkfhj
+          {content}
         </Text>
       </Card>
     </Layout>

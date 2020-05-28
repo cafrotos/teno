@@ -32,7 +32,6 @@ const create = (schema, object) => new Promise((resolve, reject) => {
         const instance = realm.create(schema, object)
         resolve(instance);
       })
-      realm.close()
     })
     .catch(err => reject(err))
 })
@@ -53,7 +52,6 @@ const update = (schema, object) => new Promise((resolve, reject) => {
         instance.updatedAt = new Date()
         resolve(instance)
       })
-      realm.close()
     })
     .catch(err => reject(err))
 })
@@ -69,7 +67,6 @@ const remove = (schema, objectId) => new Promise((resolve, reject) => {
         realm.delete(instance)
         resolve();
       })
-      realm.close()
     })
     .catch(err => reject(err))
 })
@@ -78,7 +75,6 @@ const get = (schema) => new Promise((resolve, reject) => {
   Realm.open(schemaOptions)
     .then(realm => {
       resolve(realm.objects(schema))
-      realm.close()
     })
     .catch(err => reject(err))
 })

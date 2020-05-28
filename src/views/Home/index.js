@@ -17,12 +17,11 @@ export default (props) => {
     try {
       const notes = await NotesRepository.get();
       const _data = data;
-      _data.push(
-        ...notes
+      setData(Object.values(
+        notes
           .sorted('date', true)
           .slice(data.length, data.length + 20)
-      )
-      setData(_data)
+      ))
     } catch (error) {
       console.log(error)
     }
