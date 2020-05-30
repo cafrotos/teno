@@ -33,6 +33,7 @@ const TabsApp = (props) => {
       {...props}
       tabBar={TopTabBar}
       style={{ backgroundColor: "#ffffff" }}
+      lazy={true}
     >
       <Tabs.Screen name={TAB_SCREEN.HOME} component={Home} />
       <Tabs.Screen name={TAB_SCREEN.STORIES} component={Stories} />
