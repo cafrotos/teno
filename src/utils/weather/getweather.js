@@ -1,38 +1,35 @@
-// import { KEY } from "./editable";
-let KEY = '1effc7a398ae1e31209ba251242911d9'
+import { KEY } from "./editable";
+import axios from "axios";
+import Geolocation from '@react-native-community/geolocation';
 
-let allData = {
-    "name" : "null",
-    "main" : {"temp" : "null"},
-    "weather" : {"icon" : "null"}
-};
+const getPosition = () => new Promise((resolve, reject) => {
+    Geolocation.getCurrentPosition(
+        (position) => {
+            resolve([position.coords.latitude, position.coords.longitude])
+        },
+        (error) => {
+            reject(error)
+        },
+        {
+            enableHighAccuracy: false,
+            timeout: 5000,
+        }
+    )
+})
 
-export function getWeather() {
-    
-    let options = {
-        enableHighAccuracy: true,
-        timeout: 5000,
-    };
-        
-    navigator.geolocation.getCurrentPosition(function(position) {
-        let lat = position.coords.latitude;
-        let lng = position.coords.longitude;
-        let URL = "http://api.openweathermap.org/data/2.5/weather?lat=" + lat + "&lon=" + lon + "&appid=" + KEY;
-        fetch(URL)
-            .then(res => res.json())
-            .then((data) => {
-                allData = data;    
-            });
-    }, error, options);
-            
-    function error() {
-        console.log("something is wrong");    
-    }   
+const getWeatherByLocation = (latitude, longitude) => new Promise((resolve, reject) => {
+    const url = "http://api.openweathermap.org/data/2.5/weather?lat=" + latitude + "&lon=" + longitude + "&appid=" + KEY;
+    axios.get(url)
+    .then(res => {
+        resolve(res.data)
+    })
+    .catch(e => {
+        reject(e)
+    })
+})
 
-}
-
-export function getData() {
-    this.city = allData.name;
-    this.tempF = allData.main.temp;
-    this.icon = allData.weather.icon;
+export const getWeather = async () => {
+    const [latitude, longitude] = await getPosition()
+    let data = await getWeatherByLocation(latitude, longitude)
+    return data
 }

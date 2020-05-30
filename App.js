@@ -11,7 +11,9 @@ import { defReduceState } from './src/utils';
 
 const initialState = {
   isLogin: false,
-  theme: eva.dark
+  theme: eva.dark,
+  weather: {main: {temp : 0}, name: "--.--", weather: [{id: "501"}]},
+  current: "--.--"
 }
 
 export default () => {

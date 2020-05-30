@@ -1,16 +1,29 @@
-import {getWeather, errorTitle, errorMessage} from "./index";
-import {Alert} from 'react-native';
+import {errorTitle, errorMessage} from "./index";
+import {Alert, PermissionsAndroid} from 'react-native';
 
-export function getLocation() {
-  if (navigator.geolocation) {    
-    getWeather();   
-  } else {
-    Alert.alert(
-      errorTitle,
-      errorMessage,
-      [
-        {text: 'Ok', onPress: () => console.log('ok')},
-      ],
-    );
-  }    
+
+export async function requestLocationPermission() 
+{
+  try {
+    const granted = await PermissionsAndroid.request(
+      PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+      {
+        'title': 'Teno',
+        'message': 'Teno access to your location '
+      }
+    )
+    if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+      return
+    } else {
+      Alert.alert(
+        errorTitle,
+        errorMessage,
+        [
+          {text: 'Ok', onPress: () => {}},
+        ],
+      );
+    }
+  } catch (err) {
+    console.warn(err)
+  }
 }

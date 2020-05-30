@@ -1,11 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import CustomLayout from 'components/CustomLayout';
-import { Text, Input, Layout, Button } from '@ui-kitten/components';
-import { View, ToastAndroid } from 'react-native';
-import Icon from 'utils/weather-icon/weatherIcon';
-import { getLocation, getData, getWeather } from 'utils/weather';
+import { View, ToastAndroid, KeyboardAvoidingView } from 'react-native';
 import { NotesRepository } from 'repositories'
 import { useNavigation } from '@react-navigation/native';
+import EditorBot from 'components/NoteEditor/EditorBot';
+import WeatherView from 'components/NoteEditor/WeatherView';
+import InputNote from 'components/NoteEditor/InputNote';
+import ToolBar from 'components/NoteEditor/ToolBar';
+import { Layout } from '@ui-kitten/components';
+import { ScrollView } from 'react-native-gesture-handler';
 
 export default (props) => {
   const [content, setContent] = useState("");
@@ -28,26 +31,24 @@ export default (props) => {
 
   return (
     <CustomLayout showButton={false}>
-      <View style={{ width: "100%", height: "100%", backgroundColor: "#ffffff" }}>
-        <View style={{ position: "absolute", bottom: 0, width: "100%" }}>
-          <Layout style={{ flex: 1, flexDirection: 'row', padding: 5 }}>
-            <Icon name="wi-day-sunny" size={40} />
-            <Text style={{ height: "100%", textAlignVertical: "center", paddingLeft: 5 }}>25</Text>
-            <Text style={{ height: "100%", textAlignVertical: "center", paddingLeft: 5 }}>Hanoi</Text>
-          </Layout>
-          <Input
-            placeholder="Write your emotion"
-            autoFocus={true}
-            multiline={true}
-            textStyle={{ minHeight: 100 }}
-            style={{ width: "100%", borderColor: "transparent", borderBottomWidth: 0 }}
-            onChangeText={_onChangeContent}
-          />
-          <Layout style={{ flex: 1, flexDirection: 'row', padding: 5 }}>
-            <Button onPress={_onSaveContent}>Lưu</Button>
-          </Layout>
+      {/* <View style={{ width: "100%", height: "100%", backgroundColor: "#ffffff" }}>
+          <EditorBot style={{ position: "absolute", top: 0, width: "100%", zIndex: 1}}/>
+          <View style={{ position: "absolute", bottom: 0, width: "100%" }}>
+            <WeatherView style={{ width: "100%" }}/>
+            <InputNote onChangeText={_onChangeContent}/>
+            <ToolBar onSave={_onSaveContent}/>
+          </View>
+      </View> */}
+        <View style={{ width: "100%", height: "100%", backgroundColor: "#ffffff" }}>
+            <EditorBot style={{ zIndex: 1, position: "absolute", top: 0 }}/> 
+            <View style={{position: "absolute", bottom: 0, width: "100%"}}>
+              <ScrollView> 
+                <WeatherView style={{ width: "100%"}}/>
+              </ScrollView> 
+              <InputNote onChangeText={_onChangeContent}/>
+              <ToolBar onSave={_onSaveContent}/>
+            </View>
         </View>
-      </View>
     </CustomLayout>
   )
 }

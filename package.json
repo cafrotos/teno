@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@eva-design/eva": "^2.0.0",
+    "@react-native-community/geolocation": "^2.0.2",
     "@react-native-community/google-signin": "^4.0.3",
     "@react-native-community/masked-view": "^0.1.10",
     "@react-native-firebase/app": "^7.1.0",
@@ -23,6 +24,7 @@
     "@ui-kitten/eva-icons": "^5.0.0",
     "apis": "file:src/apis",
     "assets": "file:src/assets",
+    "axios": "^0.19.2",
     "components": "file:src/components",
     "consts": "file:src/constants",
     "locales": "file:src/locales",
