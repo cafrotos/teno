@@ -6,6 +6,7 @@ import Icon from 'utils/weather-icon/weatherIcon';
 import { getLocation, getData, getWeather } from 'utils/weather';
 import { NotesRepository } from 'repositories'
 import { useNavigation } from '@react-navigation/native';
+import Editor from 'components/Editor';
 
 export default (props) => {
   const [content, setContent] = useState("");
@@ -28,7 +29,7 @@ export default (props) => {
 
   return (
     <CustomLayout showButton={false}>
-      <View style={{ width: "100%", height: "100%", backgroundColor: "#ffffff" }}>
+      {/* <View style={{ width: "100%", height: "100%", backgroundColor: "#ffffff" }}>
         <View style={{ position: "absolute", bottom: 0, width: "100%" }}>
           <Layout style={{ flex: 1, flexDirection: 'row', padding: 5 }}>
             <Icon name="wi-day-sunny" size={40} />
@@ -47,7 +48,8 @@ export default (props) => {
             <Button onPress={_onSaveContent}>Lưu</Button>
           </Layout>
         </View>
-      </View>
+      </View> */}
+      <Editor />
     </CustomLayout>
   )
 }

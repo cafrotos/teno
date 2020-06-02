@@ -2,6 +2,12 @@ import React from 'react';
 import { Layout, Button } from '@ui-kitten/components';
 import { getIcon } from 'utils';
 
+/**
+ * 
+ * @param {Object} props
+ * @param {import('react-native').ViewStyle} props.style
+ * 
+ */
 const CustomLayout = ({
   onButtonPress,
   showButton,
