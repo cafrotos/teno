@@ -1,4 +1,5 @@
 import auth from '@react-native-firebase/auth';
+import storage from '@react-native-firebase/storage';
 import { GoogleSignin } from '@react-native-community/google-signin';
 import { LoginManager, AccessToken } from 'react-native-fbsdk';
 import { FIREBASE_STATUS } from 'consts/configs';
@@ -103,3 +104,33 @@ export function updateUserProfile(user) {
     return FIREBASE_STATUS.FAIL
   });
 }
+
+function ramdomHash(length) {
+  var result           = '';
+  var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  var charactersLength = characters.length;
+  for ( var i = 0; i < length; i++ ) {
+     result += characters.charAt(Math.floor(Math.random() * charactersLength));
+  }
+  return result;
+}
+
+export const uploadImage = (file) => new Promise((resolve, reject) => {
+  var user = auth().currentUser;
+  var filename = ramdomHash(12);
+  var userImageRef = storage().ref().child(`images/${user.uid}/${filename}${file.type}`);
+  var uploadTask = userImageRef.put(file)
+  uploadTask.on(storage.TaskEvent.STATE_CHANGED,
+    (snapshot) => {
+      var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+    },
+    (error) => {
+      return reject(FIREBASE_STATUS.FAIL)
+    },
+    () => {
+      uploadTask.snapshot.ref.getDownloadURL().then(function(downloadURL) {
+        return resolve(downloadURL)
+      });
+    }
+  );
+})
