@@ -135,7 +135,7 @@ export const uploadOneStory = (story) => {
   const userStoriesCollection = diariesCollection.doc(user.uid).collection("Stories");
   return userStoriesCollection.doc(story.id).set(story, { merge: true })
     .then(() => {
-      database().ref(`publicDiaries/${user.uid}/${story.id % 10}`).set(story); //tự động thêm vào newfeed mỗi newfeed chỉ chứa 10 stories gần nhất của user
+      if(story.isPublic) database().ref(`publicDiaries/${user.uid}/${story.id % 10}`).set(story); //tự động thêm vào newfeed mỗi newfeed chỉ chứa 10 stories gần nhất của user
       return FIREBASE_STATUS.SUCCESS
     })
     .catch(() => {
@@ -149,6 +149,7 @@ export const updateOneStory = (story) => {
   const userStoriesCollection = diariesCollection.doc(user.uid).collection("Stories");
   return userStoriesCollection.doc(story.id).update(story)
     .then(() => {
+      if(story.isPublic) database().ref(`publicDiaries/${user.uid}/${story.id % 10}`).set(story); //tự động thêm vào newfeed mỗi newfeed chỉ chứa 10 stories gần nhất của user
       return FIREBASE_STATUS.SUCCESS
     })
     .catch(() => {
@@ -164,7 +165,7 @@ export const getStories = (lastVisible) => {
   const diariesCollection = firestore().collection("Diaries");
   const userStoriesCollection = diariesCollection.doc(user.uid).collection("Stories");
   const query = userStoriesCollection
-                .orderBy("createAt")
+                .orderBy("updatedAt")
                 .limit(20)
                 .lastVisible?startAfter(lastVisible):{} //nếu có truyền lastvisible thì chạy hàm này không thì thôi
   return query.get()
@@ -182,7 +183,7 @@ export const getUserPublicStory = (uid, lastVisible) => {
   const userStoriesCollection = diariesCollection.doc(uid).collection("Stories");
   const query = userStoriesCollection
                 .where("isPublic", "==", "true") //đã cài rule chỉ cho lấy story public của user khác trên firebase
-                .orderBy("createAt")
+                .orderBy("updatedAt")
                 .limit(20)
                 .lastVisible?startAfter(lastVisible):{}
   return query.get()
