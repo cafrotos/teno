@@ -5,6 +5,7 @@ import storage from '@react-native-firebase/storage';
 import { GoogleSignin } from '@react-native-community/google-signin';
 import { LoginManager, AccessToken } from 'react-native-fbsdk';
 import { FIREBASE_STATUS } from 'consts/configs';
+import { v1 as uuid } from 'uuid';
 
 auth().languageCode = 'vi'
 
@@ -107,19 +108,9 @@ export function updateUserProfile(user) {
   });
 }
 
-function ramdomHash(length) {
-  var result           = '';
-  var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-  var charactersLength = characters.length;
-  for ( var i = 0; i < length; i++ ) {
-     result += characters.charAt(Math.floor(Math.random() * charactersLength));
-  }
-  return result;
-}
-
 export const uploadImage = (file, progressListener = (progress) => {}) => new Promise((resolve, reject) => {
   var user = auth().currentUser;
-  var filename = ramdomHash(12);
+  var filename = uuid();
   var userImageRef = storage().ref().child(`images/${user.uid}/${filename}${file.type}`);
   var uploadTask = userImageRef.put(file)
   uploadTask.on(storage.TaskEvent.STATE_CHANGED,
