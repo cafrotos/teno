@@ -136,7 +136,7 @@ export const uploadOneStory = (story) => {
   return userStoriesCollection.doc(story.id).set(story, { merge: true })
     .then(() => {
       if(story.isPublic) database().ref(`publicDiaries/${user.uid}/${story.id % 10}`).set(story); //tự động thêm vào newfeed mỗi newfeed chỉ chứa 10 stories gần nhất của user
-      return FIREBASE_STATUS.SUCCESS
+      return FIREBASE_STATUS.SUCCESS                                                              //hàm realtime lỗi không ảnh hưởng
     })
     .catch(() => {
       return FIREBASE_STATUS.FAIL
@@ -150,7 +150,7 @@ export const updateOneStory = (story) => {
   return userStoriesCollection.doc(story.id).update(story)
     .then(() => {
       if(story.isPublic) database().ref(`publicDiaries/${user.uid}/${story.id % 10}`).set(story); //tự động thêm vào newfeed mỗi newfeed chỉ chứa 10 stories gần nhất của user
-      return FIREBASE_STATUS.SUCCESS
+      return FIREBASE_STATUS.SUCCESS                                                              //hàm realtime lỗi không ảnh hưởng
     })
     .catch(() => {
       return FIREBASE_STATUS.FAIL
