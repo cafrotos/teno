@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Card, Text, Layout, Avatar } from '@ui-kitten/components';
 import { View } from 'react-native';
+import { CONTENT_TYPE } from 'consts/configs';
 
 const Diary = ({
   topText,
@@ -10,7 +11,13 @@ const Diary = ({
   numberOfLines,
   onPress
 }) => {
-
+  const [note, setNote] = useState(null)
+  useEffect(() => {
+    try {
+      setNote(JSON.parse(content))
+    } catch (error) {
+    }
+  }, [content])
   const renderText = (_content, index) => {
     const rangeTextIndex = [];
     _content.style.map(s => {
@@ -125,8 +132,7 @@ const Diary = ({
               fontWeight: "bold",
             }}
           >
-            {console.log(JSON.parse(content))}
-            {JSON.parse(content).map((_content, index) => renderText(_content, index))}
+            {username}
           </Text>
           <View
             style={{
@@ -149,7 +155,11 @@ const Diary = ({
         <Text
           numberOfLines={numberOfLines}
         >
-          {content}
+          {
+            note ?
+              renderText(note.filter(n => n.type === CONTENT_TYPE.TEXT).pop()) :
+              content
+          }
         </Text>
       </Card>
     </Layout>

@@ -31,7 +31,7 @@ export default (props) => {
     _onRefresh()
     _getWeather()
     _getCurrentDate()
-  }, [])
+  }, [props.route.key])
 
   const _onRefresh = async () => {
     try {

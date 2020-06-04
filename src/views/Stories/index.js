@@ -4,6 +4,7 @@ import { useNavigation } from '@react-navigation/native';
 import { STACK_NAME } from 'consts/configs';
 import ListDiaries from 'components/ListDiaries';
 import { Text, Layout } from '@ui-kitten/components';
+import { getNewsfeed } from 'utils/firebase';
 
 export default (props) => {
   const navigation = useNavigation()
