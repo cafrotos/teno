@@ -3,23 +3,28 @@ import CustomLayout from 'components/CustomLayout';
 import { useNavigation } from '@react-navigation/native';
 import { STACK_NAME } from 'consts/configs';
 import ListDiaries from 'components/ListDiaries';
-import { getNewsfeed } from 'utils/firebase';
+import { NotesRepository } from 'repositories';
 
 export default (props) => {
   const navigation = useNavigation()
   const [data, setData] = useState([]);
 
   useEffect(() => {
+    NotesRepository.create({
+      content: "HAHAHAHAHAHA"
+    })
     _onRefresh()
   }, [])
 
   const _onRefresh = async () => {
     try {
-      const notes = await getNewsfeed(data[data.length-1]);
+      const notes = await NotesRepository.get();
       const _data = data;
       _data.push(
         ...Object.values(
-          notes.docs
+          notes
+            .sorted('date', true)
+            .slice(data.length, data.length + 20)
         )
       )
       setData(_data)
