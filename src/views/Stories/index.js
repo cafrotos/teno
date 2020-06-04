@@ -44,7 +44,7 @@ export default (props) => {
           <Text
             category="h4"
             style={{
-              paddingBottom: 36,
+              paddingBottom: 8,
               paddingTop: 8,
               fontWeight: "bold"
             }}>

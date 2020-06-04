@@ -37,14 +37,16 @@ export default (props) => {
     try {
       const notes = await NotesRepository.get();
       const _data = data;
+      const _dataLoadMore = notes
+        .sorted('date', true)
+        .slice(data.length, data.length + 20)
       _data.push(
-        ...Object.values(
-          notes
-            .sorted('date', true)
-            .slice(data.length, data.length + 20)
-        )
+        ..._dataLoadMore
       )
       setData(_data)
+      if (_dataLoadMore.length === 0)
+        return true
+      return false
     } catch (error) {
       console.log(error)
     }
@@ -60,7 +62,7 @@ export default (props) => {
     >
       <ListDiaries
         data={data}
-        marginTop={68}
+        marginTop={48}
         onRefresh={_onRefresh}
       />
     </CustomLayout>

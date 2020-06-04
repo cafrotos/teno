@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, memo } from 'react'
 import { FlatList, View } from 'react-native'
 import Diary from 'components/Diary'
 import { Layout, Spinner } from '@ui-kitten/components'
@@ -27,7 +27,7 @@ const ListDiaries = ({
     return (
       <Diary
         {...item}
-        content={item.content} 
+        content={item.content}
         topText={moment(item.date).format("hh:mm DD/MM/YYYY")}
         onPress={(event) => onItemPress(item, event)}
       />
@@ -51,7 +51,7 @@ const ListDiaries = ({
   )
 
   const ItemSeparatorComponent = () => (
-    <View style={{ paddingLeft: 8, paddingRight: 8, paddingTop: 16, paddingBottom: 16 }} />
+    <View style={{ paddingLeft: 8, paddingRight: 8, paddingTop: 0, paddingBottom: 16 }} />
   )
 
   const onEndReached = async () => {
@@ -88,9 +88,9 @@ const ListDiaries = ({
 
 ListDiaries.defaultProps = {
   data: [],
-  marginTop: 16,
+  marginTop: 8,
   onRefresh: () => { },
   onItemPress: () => { }
 }
 
-export default ListDiaries
+export default memo(ListDiaries)
