@@ -28,9 +28,6 @@ export default (props) => {
   }
 
   useEffect(() => {
-    NotesRepository.create({
-      content: "HAHAHAHAHAHA"
-    })
     _onRefresh()
     _getWeather()
     _getCurrentDate()

@@ -10,6 +10,49 @@ const Diary = ({
   numberOfLines,
   onPress
 }) => {
+
+  const renderText = (_content, index) => {
+    const rangeTextIndex = [];
+    _content.style.map(s => {
+      if (!rangeTextIndex.includes(s.start)) {
+        rangeTextIndex.push(s.start)
+      }
+      if (!rangeTextIndex.includes(s.end)) {
+        rangeTextIndex.push(s.end)
+      }
+    })
+    if (!rangeTextIndex.includes(0)) {
+      rangeTextIndex.push(0)
+    }
+    if (!rangeTextIndex.includes(_content.content.length)) {
+      rangeTextIndex.push(_content.content.length)
+    }
+    const sortRangeTextIndex = rangeTextIndex.sort((a, b) => a - b);
+    const sortStyle = _content.style.sort((a, b) => (b.end - b.start) - (a.end - a.start))
+
+    const _styles = [];
+    sortRangeTextIndex.reduce((p, c) => {
+      const _style = {
+        start: p,
+        end: c,
+        style: {}
+      }
+      for (const item of sortStyle) {
+        if (item.start <= p && item.end >= c) {
+          _style.style = {
+            ..._style.style,
+            ...item.style,
+          }
+        }
+      }
+      _styles.push(_style)
+      return c
+    })
+    return _styles.map((s, index) => (
+      <Text key={index} style={s.style}>{_content.content.slice(s.start, s.end)}</Text>
+    ))
+  }
+
   return (
     <Layout>
       {
@@ -82,7 +125,8 @@ const Diary = ({
               fontWeight: "bold",
             }}
           >
-            {username}
+            {console.log(JSON.parse(content))}
+            {JSON.parse(content).map((_content, index) => renderText(_content, index))}
           </Text>
           <View
             style={{

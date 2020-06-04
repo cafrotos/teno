@@ -13,7 +13,7 @@ export default (props) => {
     _onRefresh()
   }, [])
 
-  const onRefresh = async () => {
+  const _onRefresh = async () => {
     try {
       const notes = await getNewsfeed(data[data.length-1]);
       const _data = data;
@@ -38,7 +38,7 @@ export default (props) => {
     >
       <ListDiaries
         data={data}
-        onRefresh={onRefresh}
+        onRefresh={_onRefresh}
         header={
           <Text
             category="h4"
