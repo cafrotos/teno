@@ -1,26 +1,16 @@
 import React, { memo, useState, useRef, useEffect } from 'react';
 import { Layout, Text, Input, Button } from '@ui-kitten/components';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
-import { ScrollView, TouchableWithoutFeedback } from 'react-native';
+import { ScrollView } from 'react-native';
 import { CONTENT_TYPE, DEFAULT_STYLE } from '../../constants/configs';
-import { insertIntoIndex } from 'utils';
 
 const Editor = ({
 
 }) => {
-  const inputRef = useRef();
-
   const [contents, setContents] = useState([
     {
       content: "",
       style: [],
-      type: CONTENT_TYPE.TEXT,
-      align: "left"
-    }
-  ])
-  const [notes, setNotes] = useState([
-    {
-      contents: [],
       type: CONTENT_TYPE.TEXT,
       align: "left"
     }
@@ -30,66 +20,88 @@ const Editor = ({
     start: 0,
     end: 0
   })
-  const [prevEndCursor, setPrevEndCursor] = useState(0)
   const [styles, setStyles] = useState([]);
 
-  const _onChangeNotesText = (index) => (event) => {
-    console.log(point)
-    const _notes = JSON.parse(JSON.stringify(notes))
-    const _charater = event.nativeEvent.key
-    const _charaterStyle = {};
-    const _endCursor = point.end
+  useEffect(() => {
+    const _mappingStyle = [];
 
-    if (_endCursor !== prevEndCursor) {
-      setPrevEndCursor(_endCursor)
-    }
-    else {
-      _notes[index].contents.splice(_endCursor - 1, 1)
-    }
+    _mappingStyle.push("format-align-" + contents[point.indexContent].align)
 
-    if (_charater === "Backspace") {
-      _notes[index].contents.splice(_endCursor - 1, 1)
-      setNotes(_notes)
-      return
-    }
-
-    if (_charater === "Enter") {
-      if (_notes[index].contents[_notes[index].contents.length - 1].char !== "\n") {
-        _notes[index].contents.push({
-          char: "\n",
-          style: {}
-        })
+    if (point.start !== point.end) {
+      const _style = contents[point.indexContent].style.filter(s => s.start === point.start && s.end === point.end).pop()
+      if (_style) {
+        if (_style.style.fontWeight === "bold") {
+          _mappingStyle.push(DEFAULT_STYLE.BOLD.value);
+        }
+        if (_style.style.fontStyle === "italic") {
+          _mappingStyle.push(DEFAULT_STYLE.ITALIC.value);
+        }
+        if (_style.style.textDecorationLine === "underline") {
+          _mappingStyle.push(DEFAULT_STYLE.UNDERLINE.value);
+        }
       }
-      else {
-        _notes.push({
-          contents: [],
-          type: CONTENT_TYPE.TEXT,
-          align: "left"
-        })
-      }
-      setNotes(_notes)
-      return
     }
-
-    Object.assign(
-      _charaterStyle,
-      ...Object
-        .values(DEFAULT_STYLE)
-        .filter(s => styles.includes(s.value))
-        .map(s => s.style)
-    )
-
-    _notes[index].contents = insertIntoIndex(_notes[index].contents, { char: _charater, style: _charaterStyle }, _endCursor - 1);
-    setNotes(_notes)
-  }
+    setStyles(_mappingStyle)
+  }, [point])
 
   const _setAlignContent = (index, align) => {
-    const _notes = [...notes]
-    _notes[index].align = align;
-    setNotes(_notes)
+    const _contents = [...contents]
+    _contents[index].align = align;
+    setContents(_contents)
   }
 
   const _onSelectionText = (index) => (event) => setPoint({ indexContent: index, ...event.nativeEvent.selection })
+
+  const _setStyleText = (_style) => {
+    const _contents = JSON.parse(JSON.stringify(contents));
+    const start = point.start;
+    const end = point.end;
+    const index = point.indexContent;
+
+    if (start === end) {
+      if (_contents[index].style.length === 0) {
+        _contents[index].style.push({
+          start: 0,
+          end: _contents[index].length,
+          style: _style
+        })
+      }
+      else {
+        _contents[index].style = _contents[index].style.map(s => ({ ...s, ..._style }))
+      }
+    }
+    else {
+      if (_contents[index].style.length === 0) {
+        _contents[index].style.push({
+          start,
+          end,
+          style: _style
+        })
+      }
+      else {
+        let isChangeStyle = false;
+        _contents[index].style = _contents[index].style.map(s => {
+          if (s.start === start && s.end === end) {
+            s.style = {
+              ...s.style,
+              ..._style
+            }
+            isChangeStyle = true;
+          }
+          return s;
+        })
+
+        if (!isChangeStyle) {
+          _contents[index].style.push({
+            start,
+            end,
+            style: _style
+          })
+        }
+      }
+    }
+    setContents(_contents)
+  }
 
   const _onSelectStyle = (_style) => () => {
     const _styles = [...styles]
@@ -102,24 +114,85 @@ const Editor = ({
     }
     else if (!_styles.includes(_style.value)) {
       _styles.push(_style.value)
+      _setStyleText(_style.style)
     }
     else {
       _styles.splice(_styles.indexOf(_style.value), 1)
+      _setStyleText(_style.revertStyle)
     }
     setStyles(_styles)
   }
 
-  const _focusInput = () => inputRef.current.focus()
+  const _onChangeTextContent = (index) => (text) => {
+    const _contents = JSON.parse(JSON.stringify(contents));
+    _contents[index].content = text
+    if (point.start === point.end && point.start !== contents[index].content.length) {
+      _contents[index].style = []
+    }
+    setContents(_contents)
+  }
 
-  const renderText = (_content) => (
-    _content.contents.map((item, index) => (
-      <Text style={item.style} key={index}>{item.char}</Text>
+  const _onChangeParagrapth = (index) => (event) => {
+    const _contents = JSON.parse(JSON.stringify(contents));
+    if (event.nativeEvent.key === "Backspace" && contents[index].content.trim() === "" && contents.length > 1) {
+      _contents.splice(index, 1);
+    }
+
+    if (event.nativeEvent.key === "Enter" && contents[index].content[contents[index].content.length - 1] === "\n" && contents[index].content[contents[index].content.length - 2] === "\n") {
+      _contents[index].content = _contents[index].content.trim()
+      _contents.push({
+        content: "",
+        style: [],
+        type: CONTENT_TYPE.TEXT,
+        align: "left"
+      });
+    }
+    setContents(_contents)
+  }
+
+  const renderText = (_content) => {
+    const rangeTextIndex = [];
+    _content.style.map(s => {
+      if (!rangeTextIndex.includes(s.start)) {
+        rangeTextIndex.push(s.start)
+      }
+      if (!rangeTextIndex.includes(s.end)) {
+        rangeTextIndex.push(s.end)
+      }
+    })
+    if (!rangeTextIndex.includes(0)) {
+      rangeTextIndex.push(0)
+    }
+    if (!rangeTextIndex.includes(_content.content.length)) {
+      rangeTextIndex.push(_content.content.length)
+    }
+    const sortRangeTextIndex = rangeTextIndex.sort((a, b) => a - b);
+
+    const _styles = [];
+    sortRangeTextIndex.reduce((p, c) => {
+      const _style = {
+        start: p,
+        end: c,
+        style: {}
+      }
+      for (const item of _content.style) {
+        if (item.start <= p && item.end >= c) {
+          _style.style = {
+            ..._style.style,
+            ...item.style,
+          }
+        }
+      }
+      _styles.push(_style)
+      return c
+    })
+    return _styles.map((s, index) => (
+      <Text key={index} style={s.style}>{_content.content.slice(s.start, s.end)}</Text>
     ))
-  )
+  }
 
   const renderTextInput = (_content, index) => (
     <Input
-      // ref={index === contents.length - 1 && inputRef}
       autoFocus
       multiline
       style={{
@@ -131,9 +204,9 @@ const Editor = ({
       textAlign={_content.align}
       placeholder="Hãy viết gì đó..."
       key={index}
-      onChangeText={(text) => console.log(text.split(" ").pop())}
+      onChangeText={_onChangeTextContent(index)}
       onSelectionChange={_onSelectionText(index)}
-      onKeyPress={_onChangeNotesText(index)}
+      onKeyPress={_onChangeParagrapth(index)}
     >
       <>
         {
@@ -160,19 +233,9 @@ const Editor = ({
         flex: 1,
       }}
     >
-      <TouchableWithoutFeedback
-        // onPress={_focusInput}
-      >
-        <Layout
-          style={{
-            flex: 1
-          }}
-        >
-          {
-            notes.map(renderContent)
-          }
-        </Layout>
-      </TouchableWithoutFeedback>
+      {
+        contents.map(renderContent)
+      }
       <Layout
         style={{
           width: "100%",
@@ -224,4 +287,4 @@ const Editor = ({
   )
 }
 
-export default Editor
+export default memo(Editor)

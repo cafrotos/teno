@@ -37,17 +37,26 @@ export const DEFAULT_STYLE = {
     style: {
       fontWeight: "bold"
     },
+    revertStyle: {
+      fontWeight: "normal"
+    },
     value: "format-bold"
   },
   ITALIC: {
     style: {
       fontStyle: "italic"
     },
+    revertStyle: {
+      fontStyle: "normal"
+    },
     value: "format-italic"
   },
   UNDERLINE: {
     style: {
       textDecorationLine: "underline"
+    },
+    revertStyle: {
+      textDecorationLine: "none"
     },
     value: "format-underline"
   },
