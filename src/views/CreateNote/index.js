@@ -49,7 +49,7 @@ export default (props) => {
           </Layout>
         </View>
       </View> */}
-      <Editor />
+      <Editor onEdit={_onChangeContent} />
     </CustomLayout>
   )
 }

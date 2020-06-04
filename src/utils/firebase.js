@@ -108,26 +108,31 @@ export function updateUserProfile(user) {
   });
 }
 
-export const uploadImage = (file, progressListener = (progress) => {}) => new Promise((resolve, reject) => {
-  var user = auth().currentUser;
-  var filename = uuid();
-  var userImageRef = storage().ref().child(`images/${user.uid}/${filename}${file.type}`);
-  var uploadTask = userImageRef.put(file)
-  uploadTask.on(storage.TaskEvent.STATE_CHANGED,
-    (snapshot) => {
-      var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-      progressListener(progress)
-    },
-    (error) => {
-      return reject(FIREBASE_STATUS.FAIL)
-    },
-    () => {
-      uploadTask.snapshot.ref.getDownloadURL().then(function(downloadURL) {
-        return resolve(downloadURL)
-      });
-    }
-  );
-})
+export const uploadImage = async (path) => {
+  const user = auth().currentUser;
+  const filename = uuid();
+  const imageRef = storage().ref("image").child(`images/${user.uid}/${filename}`)
+
+  await imageRef.putFile(path)
+
+  return imageRef.getDownloadURL()
+  // var userImageRef = storage().ref('images').child(`images/${user.uid}/${filename}${file.type}`);
+  // var uploadTask = userImageRef.put(file, { contentType: 'application/octet-stream' })
+  // uploadTask.on(storage.TaskEvent.STATE_CHANGED,
+  //   (snapshot) => {
+  //     var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+  //     progressListener(progress)
+  //   },
+  //   (error) => {
+  //     return reject(FIREBASE_STATUS.FAIL)
+  //   },
+  //   () => {
+  //     uploadTask.snapshot.ref.getDownloadURL().then(function(downloadURL) {
+  //       return resolve(downloadURL)
+  //     });
+  //   }
+  // );
+}
 
 export const uploadOneStory = (story) => {
   var user = auth().currentUser;
@@ -135,7 +140,7 @@ export const uploadOneStory = (story) => {
   const userStoriesCollection = diariesCollection.doc(user.uid).collection("Stories");
   return userStoriesCollection.doc(story.id).set(story, { merge: true })
     .then(() => {
-      if(story.isPublic) database().ref(`publicDiaries/${user.uid}/${story.id % 10}`).set(story); //tự động thêm vào newfeed mỗi newfeed chỉ chứa 10 stories gần nhất của user
+      if (story.isPublic) database().ref(`publicDiaries/${user.uid}/${story.id % 10}`).set(story); //tự động thêm vào newfeed mỗi newfeed chỉ chứa 10 stories gần nhất của user
       return FIREBASE_STATUS.SUCCESS                                                              //hàm realtime lỗi không ảnh hưởng
     })
     .catch(() => {
@@ -149,7 +154,7 @@ export const updateOneStory = (story) => {
   const userStoriesCollection = diariesCollection.doc(user.uid).collection("Stories");
   return userStoriesCollection.doc(story.id).update(story)
     .then(() => {
-      if(story.isPublic) database().ref(`publicDiaries/${user.uid}/${story.id % 10}`).set(story); //tự động thêm vào newfeed mỗi newfeed chỉ chứa 10 stories gần nhất của user
+      if (story.isPublic) database().ref(`publicDiaries/${user.uid}/${story.id % 10}`).set(story); //tự động thêm vào newfeed mỗi newfeed chỉ chứa 10 stories gần nhất của user
       return FIREBASE_STATUS.SUCCESS                                                              //hàm realtime lỗi không ảnh hưởng
     })
     .catch(() => {
@@ -165,15 +170,15 @@ export const getStories = (lastVisible) => {
   const diariesCollection = firestore().collection("Diaries");
   const userStoriesCollection = diariesCollection.doc(user.uid).collection("Stories");
   const query = userStoriesCollection
-                .orderBy("updatedAt")
-                .limit(20)
-                .lastVisible?startAfter(lastVisible):{} //nếu có truyền lastvisible thì chạy hàm này không thì thôi
+    .orderBy("updatedAt")
+    .limit(20)
+    .lastVisible ? startAfter(lastVisible) : {} //nếu có truyền lastvisible thì chạy hàm này không thì thôi
   return query.get()
-    .then(function(querySnapshot) {
+    .then(function (querySnapshot) {
       return querySnapshot
     })
-    .catch(function(error) {
-        return FIREBASE_STATUS.FAIL
+    .catch(function (error) {
+      return FIREBASE_STATUS.FAIL
     });
 }
 
@@ -182,16 +187,16 @@ export const getUserPublicStory = (uid, lastVisible) => {
   const diariesCollection = firestore().collection("Diaries");
   const userStoriesCollection = diariesCollection.doc(uid).collection("Stories");
   const query = userStoriesCollection
-                .where("isPublic", "==", "true") //đã cài rule chỉ cho lấy story public của user khác trên firebase
-                .orderBy("updatedAt")
-                .limit(20)
-                .lastVisible?startAfter(lastVisible):{}
+    .where("isPublic", "==", "true") //đã cài rule chỉ cho lấy story public của user khác trên firebase
+    .orderBy("updatedAt")
+    .limit(20)
+    .lastVisible ? startAfter(lastVisible) : {}
   return query.get()
-    .then(function(querySnapshot) {
+    .then(function (querySnapshot) {
       return querySnapshot
     })
-    .catch(function(error) {
-        return FIREBASE_STATUS.FAIL
+    .catch(function (error) {
+      return FIREBASE_STATUS.FAIL
     });
 }
 
