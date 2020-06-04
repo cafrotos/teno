@@ -9,6 +9,7 @@ import InputNote from 'components/NoteEditor/InputNote';
 import ToolBar from 'components/NoteEditor/ToolBar';
 import { Layout } from '@ui-kitten/components';
 import { ScrollView } from 'react-native-gesture-handler';
+import Editor from 'components/Editor';
 
 export default (props) => {
   const [content, setContent] = useState("");
@@ -31,24 +32,18 @@ export default (props) => {
 
   return (
     <CustomLayout showButton={false}>
-      {/* <View style={{ width: "100%", height: "100%", backgroundColor: "#ffffff" }}>
-          <EditorBot style={{ position: "absolute", top: 0, width: "100%", zIndex: 1}}/>
-          <View style={{ position: "absolute", bottom: 0, width: "100%" }}>
-            <WeatherView style={{ width: "100%" }}/>
-            <InputNote onChangeText={_onChangeContent}/>
-            <ToolBar onSave={_onSaveContent}/>
-          </View>
-      </View> */}
-        <View style={{ width: "100%", height: "100%", backgroundColor: "#ffffff" }}>
-            <EditorBot style={{ zIndex: 1, position: "absolute", top: 0,  width: "100%"}}/> 
-            <View style={{position: "absolute", bottom: 0, width: "100%"}}>
-              <ScrollView> 
-                <WeatherView style={{ width: "100%"}}/>
-              </ScrollView> 
-              <InputNote onChangeText={_onChangeContent}/>
-              <ToolBar onSave={_onSaveContent}/>
-            </View>
+      <Layout
+        style={{
+          flex: 1
+        }}
+      >
+        <View style={{ width: "100%" }}>
+          <ScrollView>
+            <WeatherView style={{ width: "100%" }} />
+          </ScrollView>
         </View>
+        <Editor onEdit={_onChangeContent} />
+      </Layout>
     </CustomLayout>
   )
 }

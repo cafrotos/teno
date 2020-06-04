@@ -90,3 +90,56 @@ export const WEATHER_ICON = {
 "wi-owm-906": "hail",
 "wi-owm-957": "strong-wind"
 }
+
+export const CONTENT_TYPE = {
+  TEXT: "TEXT",
+  PHOTO: "PHOTO"
+}
+
+export const DEFAULT_STYLE = {
+  BOLD: {
+    style: {
+      fontWeight: "bold"
+    },
+    revertStyle: {
+      fontWeight: "normal"
+    },
+    value: "format-bold"
+  },
+  ITALIC: {
+    style: {
+      fontStyle: "italic"
+    },
+    revertStyle: {
+      fontStyle: "normal"
+    },
+    value: "format-italic"
+  },
+  UNDERLINE: {
+    style: {
+      textDecorationLine: "underline"
+    },
+    revertStyle: {
+      textDecorationLine: "none"
+    },
+    value: "format-underline"
+  },
+  ALIGN_LEFT: {
+    style: {
+      textAlign: "left"
+    },
+    value: "format-align-left"
+  },
+  ALIGN_CENTER: {
+    style: {
+      textAlign: "center"
+    },
+    value: "format-align-center"
+  },
+  ALIGN_RIGHT: {
+    style: {
+      textAlign: "right"
+    },
+    value: "format-align-right"
+  },
+}
