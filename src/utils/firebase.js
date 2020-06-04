@@ -133,9 +133,10 @@ export const uploadOneStory = (story) => {
   var user = auth().currentUser;
   const diariesCollection = firestore().collection("Diaries");
   const userStoriesCollection = diariesCollection.doc(user.uid).collection("Stories");
-  return userStoriesCollection.doc(story.id).set(story, { merge: true })
+  return userStoriesCollection.doc(story.id).set(story)
     .then(() => {
       if(story.isPublic) database().ref(`publicDiaries/${user.uid}/${story.id % 10}`).set(story); //tự động thêm vào newfeed mỗi newfeed chỉ chứa 10 stories gần nhất của user
+      if(story.isPublic) firestore().collection("Newsfeed").add({...story, ...user})
       return FIREBASE_STATUS.SUCCESS                                                              //hàm realtime lỗi không ảnh hưởng
     })
     .catch(() => {
@@ -150,6 +151,7 @@ export const updateOneStory = (story) => {
   return userStoriesCollection.doc(story.id).update(story)
     .then(() => {
       if(story.isPublic) database().ref(`publicDiaries/${user.uid}/${story.id % 10}`).set(story); //tự động thêm vào newfeed mỗi newfeed chỉ chứa 10 stories gần nhất của user
+      if(story.isPublic) firestore().collection("Newsfeed").add({...story, ...user})
       return FIREBASE_STATUS.SUCCESS                                                              //hàm realtime lỗi không ảnh hưởng
     })
     .catch(() => {
@@ -183,6 +185,22 @@ export const getUserPublicStory = (uid, lastVisible) => {
   const userStoriesCollection = diariesCollection.doc(uid).collection("Stories");
   const query = userStoriesCollection
                 .where("isPublic", "==", "true") //đã cài rule chỉ cho lấy story public của user khác trên firebase
+                .orderBy("updatedAt")
+                .limit(20)
+                .lastVisible?startAfter(lastVisible):{}
+  return query.get()
+    .then(function(querySnapshot) {
+      return querySnapshot
+    })
+    .catch(function(error) {
+        return FIREBASE_STATUS.FAIL
+    });
+}
+
+export const getNewsfeed = (lastVisible) => {
+  var user = auth().currentUser;
+  const newsfeedCollection = firestore().collection("Newsfeed");
+  const query = newsfeedCollection
                 .orderBy("updatedAt")
                 .limit(20)
                 .lastVisible?startAfter(lastVisible):{}
