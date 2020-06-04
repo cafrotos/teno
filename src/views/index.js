@@ -17,6 +17,8 @@ import Images from './Images';
 import Setting from './Setting';
 import CreateNote from './CreateNote';
 import { View } from 'react-native';
+import { Button } from '@ui-kitten/components';
+import { getIcon } from 'utils';
 
 const Stack = createStackNavigator();
 const Tabs = createMaterialTopTabNavigator();
@@ -56,7 +58,13 @@ export default () => {
           context.globalState.isLogin ?
             <>
               <Stack.Screen name={STACK_NAME.TABS} options={{ header: BlankHeader }} component={renderTabsApp} />
-              <Stack.Screen name={STACK_NAME.CREATE_NOTE} component={CreateNote} />
+              <Stack.Screen
+                name={STACK_NAME.CREATE_NOTE}
+                component={CreateNote}
+                options={{
+                  title: "Tạo câu chuyện"
+                }}
+              />
             </> :
             <>
               <Stack.Screen name={STACK_NAME.LOGIN} options={{ header: BlankHeader }} component={Login} />

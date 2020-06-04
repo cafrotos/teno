@@ -7,7 +7,7 @@ import EditorBot from 'components/NoteEditor/EditorBot';
 import WeatherView from 'components/NoteEditor/WeatherView';
 import InputNote from 'components/NoteEditor/InputNote';
 import ToolBar from 'components/NoteEditor/ToolBar';
-import { Layout } from '@ui-kitten/components';
+import { Layout, Button } from '@ui-kitten/components';
 import { ScrollView } from 'react-native-gesture-handler';
 import Editor from 'components/Editor';
 
@@ -43,6 +43,27 @@ export default (props) => {
           </ScrollView>
         </View>
         <Editor onEdit={_onChangeContent} />
+        <Layout
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "space-evenly"
+          }}
+        >
+          <Button
+            appearance="ghost"
+            size="medium"
+            onPress={_onSaveContent}
+          >
+            Lưu lại
+          </Button>
+          <Button
+            appearance="ghost"
+            size="medium"
+          >
+            Chia sẻ
+          </Button>
+        </Layout>
       </Layout>
     </CustomLayout>
   )

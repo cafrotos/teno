@@ -413,6 +413,7 @@ const Editor = ({
         <ScrollView
           horizontal
           keyboardShouldPersistTaps="handled"
+          showsHorizontalScrollIndicator={false}
         >
           <Button
             appearance="ghost"
